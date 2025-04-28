@@ -1,0 +1,24 @@
+<!-- tiles-more-options.component.html -->
+<div class="tiles-container">
+  <div class="tile" *ngFor="let item of items">
+    <div class="tile-content">
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.description }}</p>
+      <span class="tile-status" [ngClass]="item.status === 'Active' ? 'status-active' : 'status-inactive'">
+        {{ item.status }}
+      </span>
+    </div>
+    <div class="more-options">
+      <button class="options-btn" (click)="toggleOptions(item.id)">
+        ⋮
+      </button>
+      <div class="options-menu" *ngIf="item.showOptions">
+        <ul>
+          <li><a href="#" (click)="handleAction(item.id, 'edit')">Edit</a></li>
+          <li><a href="#" (click)="handleAction(item.id, 'delete')">Delete</a></li>
+          <li><a href="#" (click)="handleAction(item.id, 'view')">View Details</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+
+<div class="search-controls-container">
+  <!-- Search Bar -->
+  <mat-form-field appearance="outline" class="search-bar">
+    <mat-label>Search</mat-label>
+    <input matInput placeholder="Enter keywords..." [(ngModel)]="searchQuery" (input)="performSearch()">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Filter and Sort Controls -->
+  <div class="controls">
+    <!-- Filter by Category -->
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>Filter by Category</mat-label>
+      <mat-select [(ngModel)]="selectedCategory" (selectionChange)="performSearch()" >
+        <mat-option *ngFor="let category of categories" [value]="category.id" style="background-color: white;">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Sort Options -->
+    <mat-form-field appearance="outline" class="sort-select">
+      <mat-label>Sort By</mat-label>
+      <mat-select [(ngModel)]="selectedSort" (selectionChange)="performSearch()"  >
+        <mat-option *ngFor="let sort of sortOptions" [value]="sort.id" style="background-color: white;">
+          {{ sort.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Clear Button -->
+    <button mat-raised-button color="accent" (click)="clearSearch()">Clear</button>
+  </div>
+
+  <!-- Search Results -->
+  <div class="results-container">
+    <mat-list role="list">
+      <mat-list-item
+        *ngFor="let result of filteredResults"
+        role="listitem"
+        [ngClass]="{'active': result.isActive}"
+        (click)="selectResult(result)"
+      >
+        <mat-icon matListItemIcon>{{ result.icon }}</mat-icon>
+        <span matListItemTitle>{{ result.title }}</span>
+        <span matListItemLine>{{ result.description }}</span>
+      </mat-list-item>
+      <div *ngIf="filteredResults.length === 0" class="no-results">
+        No results found.
+      </div>
+    </mat-list>
+  </div>
+</div>
