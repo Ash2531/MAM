@@ -1,2 +1,26 @@
 
+
+
+<!-- src/app/app.component.html -->
+<h1 class="text-3xl font-bold underline">
+    Hello, Tailwind CSS with Angular!
+  </h1>
+  
+  <br>
+
+<div class="container ">
+    <div class="col">
+    <h1>{{ 'HELLO' | translate }}</h1>
+    <p>{{ 'WELCOME' | translate }}</p>
+
+<mat-form-field appearance="fill">
+  <mat-label>Language</mat-label>
+  <mat-select (selectionChange)="switchLanguage($event.value)">
+    <mat-option value="en">English</mat-option>
+    <mat-option value="fr">Français</mat-option>
+  </mat-select>
+</mat-form-field>
+    </div>
+</div>
+
 <router-outlet></router-outlet>
