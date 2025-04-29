@@ -8,11 +8,12 @@ import { ProcedureListComponent } from './procedure-list/procedure-list.componen
 import { ProcedureTilesComponent } from './procedure-tiles/procedure-tiles.component';
 import { SearchControlsComponent } from './search-controls/search-controls.component';
 import { TilesMoreOptionComponent } from './tiles-more-option/tiles-more-option.component';
+import { AuthGuard } from './auth/Guard/AuthGuard.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent},
   { path: 'mock-auth-redirect', component: MockAuthRedirectComponent },
-  {path: 'dashboard', component: DashboradComponent},
+  {path: 'dashboard', component: DashboradComponent ,canActivate: [AuthGuard]},
   { path: 'procedure-list', component: ProcedureListComponent },
   { path: 'procedure-tiles', component: ProcedureTilesComponent },
   { path: 'search-controls', component: SearchControlsComponent },

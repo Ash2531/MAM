@@ -1,7 +1,7 @@
 <!-- medical-dashboard.component.html -->
 <div class="dashboard-container">
   <!-- Sticky Navigation -->
-  <app-navigation></app-navigation>
+
   <div class="dashboard-controls">
     <input type="text" placeholder="Search..." class="search-bar" (input)="onSearch($event)" />
     <select class="display-options" (change)="onDisplayChange($event)">
@@ -11,6 +11,7 @@
     </select>
     <button class="filter-btn" (click)="onFilter()">Filter</button>
     <button class="sort-btn" (click)="onSort()">Sort</button>
+    <button class="sort-btn" (click)="logout()">Logout</button>
   </div>
 
   <!-- Project Tiles -->

@@ -1,42 +1,53 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { MOCK_KEYCLOAK_CONFIG } from './keycloak.constants';
-import { Observable, of } from 'rxjs';
+import Keycloak from 'keycloak-js';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MockKeycloakService {
-  constructor(private router: Router) {}
-
-
-  initiateLogin(): void {                       //I1C-1669 Start login flow trying to access protected resource.
-    const params = new URLSearchParams({
-      client_id: MOCK_KEYCLOAK_CONFIG.clientId,
-      response_type: 'code',
-      redirect_uri: MOCK_KEYCLOAK_CONFIG.redirectUri,
-    });
-    const mockAuthUrl = `/mock-auth-redirect?${params.toString()}&code=mock-auth-code`;
-    console.log('Redirecting to mock login:', mockAuthUrl);
-    this.router.navigateByUrl(mockAuthUrl);     //I1C-1716 Successful login mock-Auth-redirect
-  }
-  logout(): void {               // I1C-852 Logout and expiration token.
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('id_token');
-    sessionStorage.clear(); //Clearing all session storage
-    console.log('User logged out. Tokens cleared.');
-    this.router.navigate(['/logout']);
-  }
-
-
-
-  loadUserProfile(): Observable<any> {
-    return of({
-      sub: '1',
-      preferred_username: 'testuser',
-      email: 'testuser@example.com',
-      roles: ['user'],
+  private keycloak: Keycloak;
+  constructor( ) {
+    this.keycloak = new Keycloak({
+      url: environment.keycloak.url, // e.g., 'http://localhost:8080'
+      realm: environment.keycloak.realm, // e.g., 'your-realm'
+      clientId: environment.keycloak.clientId // e.g., 'your-client-id'
     });
   }
+  async init(): Promise<boolean> {
+    try {
+      const authenticated = await this.keycloak.init({
+        onLoad: 'login-required', // or 'check-sso' for silent authentication
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
+      });
+      return authenticated;
+    } catch (error) {
+      console.error('Keycloak initialization failed', error);
+      return false;
+    }
+  }
+  getKeycloakInstance(): Keycloak {
+    return this.keycloak;
+  }
+
+  async getToken(): Promise<string | undefined> {
+    await this.keycloak.updateToken(30); // Refresh token if expiring within 30 seconds
+    return this.keycloak.token;
+  }
+
+  async logout(): Promise<void> {
+    await this.keycloak.logout({ redirectUri: window.location.origin });
+  }
+
+  async getUserProfile(): Promise<any> {
+    return await this.keycloak.loadUserProfile();
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.keycloak.authenticated;
+  }
+
+
+
+
 }

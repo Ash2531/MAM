@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
+import { MockKeycloakService } from '../auth/mock-keycloak.service';
 
 interface Project {
   id: number;
@@ -19,6 +20,8 @@ interface Project {
   styleUrls: ['./dashborad.component.scss']
 })
 export class DashboradComponent {
+  username: string = 'User';
+
   projects: Project[] = [
     {
       id: 1,
@@ -77,7 +80,7 @@ export class DashboradComponent {
   sortBy: 'name' | 'date' = 'name'; // Sort by field
   filterByStatus: 'all' | 'Active' | 'Inactive' = 'all'; // Filter by status
 
-  constructor() {
+  constructor(private keycloakService: MockKeycloakService) {
     // Compute status dynamically based on progress
     this.projects = this.projects.map(project => ({
       ...project,
@@ -86,7 +89,16 @@ export class DashboradComponent {
     this.applyFiltersAndSort(); // Initial apply
   }
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+
+      const profile = await this.keycloakService.getUserProfile();
+      this.username = profile?.username || 'User';
+    }
+
+    logout() {
+      this.keycloakService.logout();
+
+  }
 
   toggleOptions(id: number): void {
     this.filteredProjects = this.filteredProjects.map(project => ({

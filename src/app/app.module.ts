@@ -2,7 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LogoutComponent } from './logout/logout.component';
 import { MockAuthRedirectComponent } from './mock-auth-redirect/mock-auth-redirect.component';
@@ -23,14 +23,16 @@ import { DashboradComponent } from './dashborad/dashborad.component';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MockKeycloakService } from './auth/mock-keycloak.service';
 
-
-
+export function initializeApp(keycloakService: MockKeycloakService) {
+  return () => keycloakService.init();
+}
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
    return new TranslateHttpLoader(http);
   }
-  
+
 
 
 @NgModule({
@@ -44,7 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProcedureTilesComponent,
     SearchControlsComponent,
     DashboradComponent,
-  
+
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -68,8 +70,18 @@ export function HttpLoaderFactory(http: HttpClient) {
 
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: MockKeycloakInterceptor, multi: true },
     provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [MockKeycloakService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockKeycloakInterceptor,
+      multi: true
+    }
   ],
 })
 export class AppModule {}
