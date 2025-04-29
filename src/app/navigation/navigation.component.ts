@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { TranslateService } from '@ngx-translate/core';
+import { MockKeycloakService } from '../auth/mock-keycloak.service';
 
 interface MenuItem {
   label: string;
@@ -15,7 +16,8 @@ export class NavigationComponent {
   menuItems: MenuItem[] = [];
 
   isMobileMenuOpen = false;
-  constructor() {
+  constructor(private translate: TranslateService,private keycloakService: MockKeycloakService) {
+    this.translate.setDefaultLang('en');
     this.menuItems = [
       { label: 'Procedure List', route: '/procedure-list' },
       { label: 'Procedure Tiles', route: '/procedure-tiles' },
@@ -27,7 +29,12 @@ export class NavigationComponent {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-
-
+  logout() {
+    this.keycloakService.logout();
+}
+  // Method to switch languages
+  switchLanguage(language: string) {
+    this.translate.use(language);
+    }
 
 }

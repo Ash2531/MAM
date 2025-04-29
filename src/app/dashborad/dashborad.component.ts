@@ -93,12 +93,10 @@ export class DashboradComponent {
 
       const profile = await this.keycloakService.getUserProfile();
       this.username = profile?.username || 'User';
+      console.log('User Profile:', profile);
     }
 
-    logout() {
-      this.keycloakService.logout();
 
-  }
 
   toggleOptions(id: number): void {
     this.filteredProjects = this.filteredProjects.map(project => ({

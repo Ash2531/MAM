@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-root',
@@ -9,15 +9,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   title = 'moc';
 
-  constructor(private translate: TranslateService){
-    
+  constructor(){
+
     // Set the default language
-   this.translate.setDefaultLang('en');
+
   }
 
-  // Method to switch languages
- switchLanguage(language: string) {
-  this.translate.use(language);
-  }
+
 
 }

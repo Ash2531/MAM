@@ -20,4 +20,26 @@
       {{ item.label }}
     </button>
   </mat-menu>
+
+  <div class="container ">
+    <div class="col">
+    <!-- <h1>{{ 'HELLO' | translate }}</h1>
+    <p>{{ 'WELCOME' | translate }}</p> -->
+
+<mat-form-field appearance="fill"  class="bg-white-600"  >
+  <mat-label>Language</mat-label>
+  <mat-select  (selectionChange)="switchLanguage($event.value)">
+    <mat-option value="en">English</mat-option>
+    <mat-option value="fr">Français</mat-option>
+  </mat-select>
+</mat-form-field>
+    </div>
+</div>
+<button
+  class="bg-red-600 text-white px-4 py-2 rounded-md cursor-pointer text-sm hover:bg-red-700 transition-colors duration-300"
+  (click)="logout()"
+>
+  Logout
+</button>
+
 </nav>

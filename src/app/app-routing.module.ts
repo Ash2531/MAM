@@ -10,19 +10,18 @@ import { SearchControlsComponent } from './search-controls/search-controls.compo
 import { TilesMoreOptionComponent } from './tiles-more-option/tiles-more-option.component';
 import { AuthGuard } from './auth/Guard/AuthGuard.guard';
 
+
 const routes: Routes = [
-  { path: '', component: HomeComponent},
-  { path: 'mock-auth-redirect', component: MockAuthRedirectComponent },
-  {path: 'dashboard', component: DashboradComponent ,canActivate: [AuthGuard]},
-  { path: 'procedure-list', component: ProcedureListComponent },
-  { path: 'procedure-tiles', component: ProcedureTilesComponent },
-  { path: 'search-controls', component: SearchControlsComponent },
-  { path: 'tiles-more', component: TilesMoreOptionComponent },
-  { path: 'logout', component: LogoutComponent },
+   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+   { path: 'mock-auth-redirect', component: MockAuthRedirectComponent },
+   { path: 'dashboard', component: DashboradComponent, canActivate: [AuthGuard] },
+   { path: 'procedure-list', component: ProcedureListComponent },
+   { path: 'procedure-tiles', component: ProcedureTilesComponent },
+   { path: 'search-controls', component: SearchControlsComponent },
+   { path: 'tiles-more', component: TilesMoreOptionComponent },
+   { path: 'logout', component: LogoutComponent },
+  ];
 
-
-
-];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
