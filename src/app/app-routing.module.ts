@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LogoutComponent } from './logout/logout.component';
-import { HomeComponent } from './login/home.component';
 import { MockAuthRedirectComponent } from './mock-auth-redirect/mock-auth-redirect.component';
 import { DashboradComponent } from './dashborad/dashborad.component';
 import { ProcedureListComponent } from './procedure-list/procedure-list.component';
@@ -19,7 +17,6 @@ const routes: Routes = [
    { path: 'procedure-tiles', component: ProcedureTilesComponent },
    { path: 'search-controls', component: SearchControlsComponent },
    { path: 'tiles-more', component: TilesMoreOptionComponent },
-   { path: 'logout', component: LogoutComponent },
   ];
 
 

@@ -1,5 +1,6 @@
-<nav>
-   <button
+<!-- navigation.component.html -->
+<mat-toolbar color="primary" class="mat-elevation-z2 nav-toolbar">
+  <button
     class="menu-button"
     mat-button
     [matMenuTriggerFor]="menu"
@@ -20,26 +21,29 @@
       {{ item.label }}
     </button>
   </mat-menu>
-
-  <div class="container ">
-    <div class="col">
-    <!-- <h1>{{ 'HELLO' | translate }}</h1>
-    <p>{{ 'WELCOME' | translate }}</p> -->
-
-<mat-form-field appearance="fill"  class="bg-white-600"  >
+  &nbsp; &nbsp; &nbsp; &nbsp;
+  <span class="app-title">Baxter-MAM Soup Testing </span>
+  <span class="spacer"></span>
+  <!-- Language Dropdown -->
+  <mat-form-field appearance="fill" class="lang-select">
   <mat-label>Language</mat-label>
-  <mat-select  (selectionChange)="switchLanguage($event.value)">
-    <mat-option value="en">English</mat-option>
-    <mat-option value="fr">Français</mat-option>
+  <mat-select (selectionChange)="switchLanguage($event.value)">
+  <mat-option value="en">English</mat-option>
+  <mat-option value="Fr">Francis</mat-option>
   </mat-select>
-</mat-form-field>
-    </div>
-</div>
-<button
-  class="bg-red-600 text-white px-4 py-2 rounded-md cursor-pointer text-sm hover:bg-red-700 transition-colors duration-300"
-  (click)="logout()"
->
-  Logout
-</button>
-
-</nav>
+  </mat-form-field>
+  <!-- Avatar + Menu -->
+  <button mat-button [matMenuTriggerFor]="userMenu" class="avatar-button">
+  <div class="avatar">{{ username.charAt(0).toUpperCase() }}</div>
+  </button>
+  <mat-menu #userMenu="matMenu" >
+  <div class="user-info py-0 px-4">
+  <p><strong>Name:</strong> {{ username }}</p>
+  <p><strong>Email:</strong> {{ email }}</p>
+  </div>
+  <button mat-menu-item (click)="logout()">
+  <mat-icon>logout</mat-icon>
+  <span>Logout</span>
+  </button>
+  </mat-menu>
+  </mat-toolbar>

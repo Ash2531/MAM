@@ -1,64 +1,117 @@
-<!-- medical-dashboard.component.html -->
-<div class="dashboard-container">
-  <!-- Sticky Navigation -->
-
-  <div class="dashboard-controls">
-    <input type="text" placeholder="Search..." class="search-bar" (input)="onSearch($event)" />
-    <select class="display-options" (change)="onDisplayChange($event)">
-      <option value="tiles">Procedure Tiles</option>
-      <option value="large">Thumbnails Large</option>
-      <option value="small">Thumbnails Small</option>
-    </select>
-    <button class="filter-btn" (click)="onFilter()">Filter</button>
-    <button class="sort-btn" (click)="onSort()">Sort</button>
-
-  </div>
-
-  <!-- Project Tiles -->
-  <section class="projects">
-    <div class="tiles-container">
-      <div class="tile" *ngFor="let project of filteredProjects">
-        <div class="tile-content">
-          <img [src]="project.thumbnail" [ngClass]="displayMode === 'large' ? 'thumbnail-large' : displayMode === 'small' ? 'thumbnail-small' : ''" [alt]="project.name + ' thumbnail'" />
-          <div class="tile-info">
-            <h4>{{ project.name }}</h4>
-            <span class="date">{{ project.date | date:'yyyy-MM-dd' }}</span>
-            <span class="metadata">{{ project.mediaType }} ({{ project.mediaCount }} {{ project.mediaCount === 1 ? 'item' : 'items' }})</span>
-            <span class="procedure">{{ project.procedure }}</span>
-          </div>
-          <div class="progress">
-            <span>Progress: {{ project.progress }}%</span>
-            <div class="progress-bar">
-              <div class="progress-fill" [style.width]="project.progress + '%'"></div>
-            </div>
-          </div>
-          <span class="status" [ngClass]="project.status === 'Active' ? 'status-active' : 'status-inactive'">
-            {{ project.status }}
-          </span>
-        </div>
-        <div class="more-options">
-          <button class="options-btn" (click)="toggleOptions(project.id)">
-            ⋮
-          </button>
-          <div class="options-menu" *ngIf="project.showOptions">
-            <ul>
-              <li><a href="#" (click)="handleAction(project.id, 'edit')">Edit</a></li>
-              <li><a href="#" (click)="handleAction(project.id, 'delete')">Delete</a></li>
-              <li><a href="#" (click)="handleAction(project.id, 'view')">View Details</a></li>
-            </ul>
-          </div>
-        </div>
+<div class="min-h-screen bg-gray-100 p-6">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center space-x-4">
+      <div class="relative">
+        <select [ngModel]="(viewModeObs$ | async)" (ngModelChange)="onViewModeChange($event)" class="border rounded px-3 py-2 bg-blue-500 text-white">
+          <option value="tiles">Procedure Tiles</option>
+          <option value="thumbnails-large">Thumbnails Large</option>
+          <option value="thumbnails-small">Thumbnails Small</option>
+        </select>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2025 Baxter-MAM All rights reserved.</p>
-    <div class="footer-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Contact Us</a>
+  <!-- Bulk Actions for Multiple Selection -->
+  <div *ngIf="selectedItemsObs$ | async as selectedItems" class="mb-4 flex space-x-2">
+    <ng-container *ngIf="selectedItems.length > 0">
+      <button (click)="togglePrivateForSelected()" class="bg-gray-500 text-white px-4 py-2 rounded">
+        {{ (allSelectedPrivateObs$ | async) ? 'Unmark as Private' : 'Mark as Private' }}
+      </button>
+      <button (click)="clearSelection()" class="bg-gray-300 text-black px-4 py-2 rounded">Clear Selection</button>
+    </ng-container>
+  </div>
+
+  <!-- Procedure Items -->
+  <div [ngClass]="{
+    'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6': (viewModeObs$ | async) === 'tiles',
+    'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4': (viewModeObs$ | async) === 'thumbnails-large',
+    'grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2': (viewModeObs$ | async) === 'thumbnails-small'
+  }">
+    <div *ngFor="let procedure of (filteredProceduresObs$ | async)"
+         (click)="onTileClick(procedure)"
+         [ngClass]="{
+           'bg-gray-800 text-white rounded-lg p-4 cursor-pointer': (viewModeObs$ | async) === 'tiles',
+           'bg-gray-800 text-white rounded-lg p-2 cursor-pointer': (viewModeObs$ | async) === 'thumbnails-large',
+           'bg-gray-800 text-white rounded-lg p-1 cursor-pointer': (viewModeObs$ | async) === 'thumbnails-small',
+           'border-2 border-blue-500': (selectedItemsObs$ | async)?.includes(procedure.id)
+         }">
+      <!-- Thumbnail -->
+      <img [src]="procedure.thumbnail" alt="Thumbnail"
+           [ngClass]="{
+             'w-full h-48 object-cover rounded': (viewModeObs$ | async) === 'tiles',
+             'w-full h-32 object-cover rounded': (viewModeObs$ | async) === 'thumbnails-large',
+             'w-full h-20 object-cover rounded': (viewModeObs$ | async) === 'thumbnails-small'
+           }">
+
+      <!-- Item Information -->
+      <div class="mt-2">
+        <h2 [ngClass]="{'text-lg': (viewModeObs$ | async) === 'tiles', 'text-md': (viewModeObs$ | async) === 'thumbnails-large', 'text-sm': (viewModeObs$ | async) === 'thumbnails-small'}">
+          {{ procedure.name }}
+        </h2>
+        <p [ngClass]="{'text-sm': (viewModeObs$ | async) === 'tiles', 'text-xs': (viewModeObs$ | async) === 'thumbnails-large' || (viewModeObs$ | async) === 'thumbnails-small'}">
+          {{ procedure.date | date:'yyyy-MM-dd' }}
+        </p>
+        <p [ngClass]="{'text-sm': (viewModeObs$ | async) === 'tiles', 'text-xs': (viewModeObs$ | async) === 'thumbnails-large' || (viewModeObs$ | async) === 'thumbnails-small'}">
+          {{ procedure.type }} ({{ procedure.itemCount }} items)
+        </p>
+        <p [ngClass]="{'text-sm': (viewModeObs$ | async) === 'tiles', 'text-xs': (viewModeObs$ | async) === 'thumbnails-large' || (viewModeObs$ | async) === 'thumbnails-small'}">
+          {{ procedure.title }} / {{ procedure.code }}
+        </p>
+        <div class="mt-2">
+          <p [ngClass]="{'text-sm': (viewModeObs$ | async) === 'tiles', 'text-xs': (viewModeObs$ | async) === 'thumbnails-large' || (viewModeObs$ | async) === 'thumbnails-small'}">
+            Progress: {{ procedure.progress }}%
+          </p>
+          <div class="w-full bg-gray-300 rounded-full h-2">
+            <div [style.width]="procedure.progress + '%'"
+                 [ngClass]="{'bg-green-500': procedure.progress >= 50, 'bg-red-500': procedure.progress < 50}"
+                 class="h-2 rounded-full"></div>
+          </div>
+        </div>
+        <button [ngClass]="{
+          'bg-green-500 text-white px-3 py-1 rounded mt-2': procedure.isActive,
+          'bg-pink-500 text-white px-3 py-1 rounded mt-2': !procedure.isActive
+        }">
+          {{ procedure.isActive ? 'Active' : 'Inactive' }}
+        </button>
+        <!-- Private Toggle -->
+        <button (click)="togglePrivate(procedure); $event.stopPropagation()"
+                class="bg-gray-500 text-white px-3 py-1 rounded mt-2 ml-2">
+          {{ procedure.isPrivate ? 'Unmark Private' : 'Mark Private' }}
+        </button>
+        <!-- Checkbox for Multiple Selection -->
+        <input type="checkbox" class="mt-2"
+               (click)="$event.stopPropagation()"
+               [checked]="(selectedItemsObs$ | async)?.includes(procedure.id)"
+               (change)="toggleSelection(procedure.id)">
+      </div>
     </div>
-  </footer>
+  </div>
+
+  <!-- Expanded Preview Gallery -->
+  <div *ngIf="selectedProcedureObs$ | async as selectedProcedure" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-3/4 max-h-[60vh] overflow-y-auto">
+      <h2 class="text-2xl mb-4">{{ selectedProcedure.name }}</h2>
+      <button (click)="closeGallery()" class="close-button">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+        Close
+      </button>
+      <!-- Main Preview (Image or Video) -->
+      <div *ngIf="selectedProcedure.type === 'Video'; else imagePreview">
+        <iframe class="w-full h-96 rounded" [src]="safeUrl(selectedProcedure.mediaUrl)" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <ng-template #imagePreview>
+        <img [src]="selectedProcedure.mediaUrl" alt="Main Preview" class="w-full h-96 object-cover rounded">
+      </ng-template>
+      <!-- Scrollable Thumbnails -->
+      <div class="flex overflow-x-auto space-x-2 mt-4">
+        <img *ngFor="let thumb of selectedProcedure.thumbnails"
+             [src]="thumb" alt="Thumbnail"
+             class="w-24 h-24 object-cover rounded cursor-pointer"
+             (click)="selectedProcedure.mediaUrl = selectedProcedure.type === 'Video' ? selectedProcedure.mediaUrl : thumb">
+      </div>
+    </div>
+  </div>
 </div>

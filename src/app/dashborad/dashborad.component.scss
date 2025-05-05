@@ -24,6 +24,7 @@ app-navigation {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   .search-bar {
+
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -239,4 +240,16 @@ app-navigation {
       }
     }
   }
+}
+.close-button {
+  position: absolute;
+  top: 9rem;
+  right: 11rem;
+  background-color: #ec4899;
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
 }

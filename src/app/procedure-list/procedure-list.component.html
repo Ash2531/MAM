@@ -5,6 +5,7 @@
       role="listitem"
       [ngClass]="{'active': item.isActive}"
       (click)="selectItem(item)"
+      [routerLink]="item.path"
     >
       <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
       <span matListItemTitle>{{ item.title }}</span>

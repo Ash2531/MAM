@@ -11,7 +11,7 @@ export class AppComponent {
 
   constructor(){
 
-    // Set the default language
+
 
   }
 

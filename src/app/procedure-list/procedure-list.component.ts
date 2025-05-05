@@ -7,6 +7,7 @@ interface ListItem {
   description: string;
   icon: string;
   isActive: boolean;
+  path: string;
 }
 @Component({
   selector: 'app-procedure-list',
@@ -23,28 +24,32 @@ export class ProcedureListComponent {
       title: 'Dashboard',
       description: 'View key metrics and insights',
       icon: 'dashboard',
-      isActive: true
+      isActive: true,
+      path: '/dashboard'
     },
     {
       id: 2,
       title: 'Tasks',
       description: 'Manage your daily tasks',
       icon: 'assignment',
-      isActive: false
+      isActive: false,
+      path: '/tasks'
     },
     {
       id: 3,
       title: 'Settings',
       description: 'Configure app preferences',
       icon: 'settings',
-      isActive: false
+      isActive: false,
+      path: '/settings'
     },
     {
       id: 4,
       title: 'Profile',
       description: 'Update your user information',
       icon: 'person',
-      isActive: false
+      isActive: false,
+      path: '/profile'
     }
   ];
 

@@ -4,10 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LogoutComponent } from './logout/logout.component';
 import { MockAuthRedirectComponent } from './mock-auth-redirect/mock-auth-redirect.component';
 import { MockKeycloakInterceptor } from './auth/mock-keycloak.interceptor';
-import { HomeComponent } from './login/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ProcedureListComponent } from './procedure-list/procedure-list.component';
 import { ProcedureTilesComponent } from './procedure-tiles/procedure-tiles.component';
@@ -24,7 +22,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MockKeycloakService } from './auth/mock-keycloak.service';
-
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
+import {MatTabsModule} from '@angular/material/tabs';
+import { SafePipe } from './safe.pipe';
 export function initializeApp(keycloakService: MockKeycloakService) {
   return () => keycloakService.init();
 }
@@ -39,13 +40,12 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     MockAuthRedirectComponent,
-    LogoutComponent,
-    HomeComponent,
     NavigationComponent,
     ProcedureListComponent,
     ProcedureTilesComponent,
     SearchControlsComponent,
     DashboradComponent,
+    SafePipe
 
   ],
   bootstrap: [AppComponent],
@@ -59,7 +59,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatListModule,
     MatInputModule,
     FormsModule,
+    MatToolbarModule,
     MatSelectModule,
+    MatTabsModule,
+    MatCardModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

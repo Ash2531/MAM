@@ -9,15 +9,15 @@ export class MockKeycloakService {
   private keycloak: Keycloak;
   constructor( ) {
     this.keycloak = new Keycloak({
-      url: environment.keycloak.url, // e.g., 'http://localhost:8080'
-      realm: environment.keycloak.realm, // e.g., 'your-realm'
-      clientId: environment.keycloak.clientId // e.g., 'your-client-id'
+      url: environment.keycloak.url,
+      realm: environment.keycloak.realm,
+      clientId: environment.keycloak.clientId
     });
   }
   async init(): Promise<boolean> {
     try {
       const authenticated = await this.keycloak.init({
-        onLoad: 'login-required', // or 'check-sso' for silent authentication
+        onLoad: 'login-required',
         silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
       });
       return authenticated;
@@ -31,7 +31,7 @@ export class MockKeycloakService {
   }
 
   async getToken(): Promise<string | undefined> {
-    await this.keycloak.updateToken(30); // Refresh token if expiring within 30 seconds
+    await this.keycloak.updateToken(30);
     return this.keycloak.token;
   }
 

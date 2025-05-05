@@ -14,7 +14,8 @@ interface MenuItem {
 })
 export class NavigationComponent {
   menuItems: MenuItem[] = [];
-
+  username: string = 'User';
+  email: string = 'Email';
   isMobileMenuOpen = false;
   constructor(private translate: TranslateService,private keycloakService: MockKeycloakService) {
     this.translate.setDefaultLang('en');
@@ -25,6 +26,14 @@ export class NavigationComponent {
       { label:  'Tiles-More ', route: '/tiles-more' },
     ];
   }
+  async ngOnInit()   {
+    const profile = await this.keycloakService.getUserProfile();
+    this.username = profile?.username || 'User';
+    this.email = profile?.email || 'Email';
+    console.log('User Profile:', profile);
+
+   }
+
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
