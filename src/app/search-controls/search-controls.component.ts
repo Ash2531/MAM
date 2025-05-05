@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+/**
+ *
+ */
 @Component({
   selector: 'app-search-controls',
   templateUrl: './search-controls.component.html',
@@ -9,19 +12,29 @@ export class SearchControlsComponent {
   @Input() viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small' | null = 'tiles';
   @Input() selectedItems: number[] = [];
   @Input() allSelectedPrivate: boolean | null = false;
-  @Output() viewModeChange = new EventEmitter<'tiles' | 'thumbnails-large' | 'thumbnails-small'>();
-  @Output() togglePrivateForSelected = new EventEmitter<void>();
-  @Output() clearSelection = new EventEmitter<void>();
+  @Output() readonly viewModeChange = new EventEmitter<'tiles' | 'thumbnails-large' | 'thumbnails-small'>();
+  @Output() readonly togglePrivateForSelected = new EventEmitter<void>();
+  @Output() readonly clearSelection = new EventEmitter<void>();
 
-  onViewModeChange(viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'): void {
+  /**
+   * Emits a view mode change event.
+   * @param viewMode - The new view mode to emit.
+   */
+  onViewModeChange = (viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'): void => {
     this.viewModeChange.emit(viewMode);
-  }
+  };
 
-  onTogglePrivateForSelected(): void {
+  /**
+   * Emits an event to toggle the private status of selected items.
+   */
+  onTogglePrivateForSelected = (): void => {
     this.togglePrivateForSelected.emit();
-  }
+  };
 
-  onClearSelection(): void {
+  /**
+   * Emits an event to clear the current selection.
+   */
+  onClearSelection = (): void => {
     this.clearSelection.emit();
-  }
+  };
 }

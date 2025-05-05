@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { DashboradComponent } from './dashborad.component';
+import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+
+import { DashboradComponent } from './dashborad.component';
 
 describe('DashboradComponent', () => {
   let component: DashboradComponent;
@@ -14,7 +15,7 @@ describe('DashboradComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MatMenuModule, BrowserModule, FormsModule],
       declarations: [DashboradComponent],
-      providers: [DomSanitizer]
+      providers: [sanitizer]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboradComponent);

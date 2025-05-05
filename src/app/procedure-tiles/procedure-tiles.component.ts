@@ -21,6 +21,9 @@ interface Project {
   itemCount: number;
 }
 
+/**
+ *
+ */
 @Component({
   selector: 'app-procedure-tiles',
   templateUrl: './procedure-tiles.component.html',
@@ -29,28 +32,43 @@ interface Project {
 export class ProcedureTilesComponent {
   @Input() procedure!: Project;
   @Input() viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small' | null = 'tiles';
-  @Input() isSelected: boolean = false;
-  @Output() tileClick = new EventEmitter<Project>();
-  @Output() togglePrivate = new EventEmitter<Project>();
-  @Output() toggleSelection = new EventEmitter<number>();
-  @Output() removeTile = new EventEmitter<number>();
+  @Input() isSelected = false;
+  @Output() readonly tileClick = new EventEmitter<Project>();
+  @Output() readonly togglePrivate = new EventEmitter<Project>();
+  @Output() readonly toggleSelection = new EventEmitter<number>();
+  @Output() readonly removeTile = new EventEmitter<number>();
 
-  onTileClick(): void {
+  /**
+   * Handles a tile click event.
+   */
+  onTileClick = (): void => {
     this.tileClick.emit(this.procedure);
-  }
+  };
 
-  onTogglePrivate(event: Event): void {
+  /**
+   * Toggles the private status of the procedure.
+   * @param event - The DOM event to stop propagation.
+   */
+  onTogglePrivate = (event: Event): void => {
     event.stopPropagation();
     this.togglePrivate.emit(this.procedure);
-  }
+  };
 
-  onToggleSelection(event: Event): void {
+  /**
+   * Toggles the selection of the procedure.
+   * @param event - The DOM event to stop propagation.
+   */
+  onToggleSelection = (event: Event): void => {
     event.stopPropagation();
     this.toggleSelection.emit(this.procedure.id);
-  }
+  };
 
-  onRemoveTile(event: Event): void {
+  /**
+   * Removes the tile by emitting its ID.
+   * @param event - The DOM event to stop propagation.
+   */
+  onRemoveTile = (event: Event): void => {
     event.stopPropagation();
     this.removeTile.emit(this.procedure.id);
-  }
+  };
 }

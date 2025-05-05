@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { MockKeycloakService } from '../auth/mock-keycloak.service';
 
 interface MenuItem {
@@ -7,6 +8,10 @@ interface MenuItem {
   route: string;
 }
 
+
+/**
+ *
+ */
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
@@ -16,6 +21,11 @@ export class NavigationComponent {
   menuItems: MenuItem[] = [];
   username: string = 'User';
   email: string = 'Email';
+  /**
+   *
+   * @param translate
+   * @param keycloakService
+   */
   constructor(private translate: TranslateService,private keycloakService: MockKeycloakService) {
     this.translate.setDefaultLang('en');
     this.menuItems = [
@@ -25,22 +35,33 @@ export class NavigationComponent {
       { label: 'Nav 2', route: '/dashboard' },
     ];
   }
-  async ngOnInit()   {
+  /**
+   *@returns fteches the user profile from the Keycloak service and sets the username and email properties.
+   */
+  async ngOnInit() : Promise<void>  {
     const profile = await this.keycloakService.getUserProfile();
     this.username = profile?.username || 'User';
     this.email = profile?.email || 'Email';
     console.log('User Profile:', profile);
 
-   }
+  }
 
 
 
-  logout() {
+  /**
+   *@returns void
+   */
+  logout():void {
     this.keycloakService.logout();
-}
+  }
   // Method to switch languages
-  switchLanguage(language: string) {
+  /**
+   *
+   * @param language
+   * @returns void
+   */
+  switchLanguage(language: string): void {
     this.translate.use(language);
-    }
+  }
 
 }

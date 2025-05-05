@@ -22,6 +22,9 @@ interface Project {
   itemCount: number;
 }
 
+/**
+ *
+ */
 @Component({
   selector: 'app-tiles-more-option',
   standalone: true,
@@ -30,10 +33,10 @@ interface Project {
   styleUrls: ['./tiles-more-option.component.scss'],
 })
 export class TilesMoreOptionComponent {
-  @Output() addTile = new EventEmitter<Project>();
-  @Output() removeTile = new EventEmitter<number>();
+  @Output() readonly addTile = new EventEmitter<Project>();
+  @Output() readonly removeTile = new EventEmitter<number>();
 
-  items: Project[] = [
+  readonly items: Project[] = [
     {
       id: 3,
       name: 'Charlie Brown',
@@ -82,16 +85,24 @@ export class TilesMoreOptionComponent {
     },
   ];
 
-  toggleOptions(id: number): void {
-    this.items = this.items.map(item => ({
-      ...item,
-      showOptions: item.id === id ? !item.showOptions : false,
-    }));
-  }
+  /**
+   * Toggles the options menu for a specific item.
+   * @param id - The ID of the item to toggle options for.
+   */
+  toggleOptions = (id: number): void => {
+    this.items.forEach(item => {
+      item.showOptions = item.id === id ? !item.showOptions : false;
+    });
+  };
 
-  handleAction(id: number, action: string): void {
+  /**
+   * Handles actions on an item (e.g., add, delete, view).
+   * @param id - The ID of the item.
+   * @param action - The action to perform ('add', 'delete', 'view').
+   */
+  handleAction = (id: number, action: string): void => {
     const item = this.items.find(i => i.id === id);
-    if (!item) return;
+    if (!item) {return;}
 
     switch (action) {
       case 'add':
@@ -104,6 +115,6 @@ export class TilesMoreOptionComponent {
         console.log(`Viewing details for item ${id}`);
         break;
     }
-    this.toggleOptions(id); // Close menu after action
-  }
+    this.toggleOptions(id);
+  };
 }

@@ -1,10 +1,26 @@
-import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
+/**
+ *
+ */
+interface TokenResponse{
+  access_token: string;
+  refresh_token: string;
+}
+/**
+ *
+ */
 @Injectable()
 export class MockKeycloakInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  /**
+   *
+   * @param req
+   * @param next
+   * @returns Observable<HttpEvent<TokenResponse>>
+   */
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<TokenResponse>> {
 
     //refresh token mock-logic
     if (req.url.endsWith('/token')) {
@@ -24,9 +40,9 @@ export class MockKeycloakInterceptor implements HttpInterceptor {
     //Injecting authorization token for others request.
     const clonedReq = req.clone({
       setHeaders: {
-        Authorization: `Bearer mock-access-token`
-    }});
+        Authorization: 'Bearer mock-access-token'
+      }});
 
-    return next.handle(req);
+    return next.handle(clonedReq);
   }
 }

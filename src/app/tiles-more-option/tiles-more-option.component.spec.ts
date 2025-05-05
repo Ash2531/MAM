@@ -10,7 +10,7 @@ describe('TilesMoreOptionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TilesMoreOptionComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(TilesMoreOptionComponent);
     component = fixture.componentInstance;

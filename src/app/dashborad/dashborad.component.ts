@@ -1,6 +1,6 @@
-import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { BehaviorSubject, combineLatest, debounceTime, map, Observable, Subject, takeUntil } from 'rxjs';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { BehaviorSubject, combineLatest, debounceTime, map, Observable, Subject, takeUntil } from 'rxjs';
 
 interface Project {
   id: number;
@@ -23,25 +23,27 @@ interface Project {
   itemCount: number;
 }
 
+/**
+ *
+ */
 @Component({
   selector: 'app-dashborad',
   templateUrl: './dashborad.component.html',
   styleUrls: ['./dashborad.component.scss'],
 })
 export class DashboradComponent implements OnDestroy {
-  private viewMode$ = new BehaviorSubject<'tiles' | 'thumbnails-large' | 'thumbnails-small'>('tiles');
-  private selectedItems$ = new BehaviorSubject<number[]>([]);
-  private selectedProcedure$ = new BehaviorSubject<Project | null>(null);
-  private procedures$ = new BehaviorSubject<Project[]>([]);
-  private destroy$ = new Subject<void>();
-  showTilesMore: boolean = false; // Toggle for Tiles More view
+  private readonly viewMode$ = new BehaviorSubject<'tiles' | 'thumbnails-large' | 'thumbnails-small'>('tiles');
+  private readonly selectedItems$ = new BehaviorSubject<number[]>([]);
+  private readonly selectedProcedure$ = new BehaviorSubject<Project | null>(null);
+  public readonly procedures$ = new BehaviorSubject<Project[]>([]);
+  private readonly destroy$ = new Subject<void>();
+  showTilesMore = false;
 
-  // Public observables for template
   viewModeObs$: Observable<'tiles' | 'thumbnails-large' | 'thumbnails-small'> = this.viewMode$.asObservable();
   selectedItemsObs$: Observable<number[]> = this.selectedItems$.asObservable();
   selectedProcedureObs$: Observable<Project | null> = this.selectedProcedure$.asObservable();
   filteredProceduresObs$: Observable<Project[]> = this.procedures$.pipe(
-    map(procedures => procedures ?? [])
+    map(procedures => procedures ?? []),
   );
 
   allSelectedPrivateObs$: Observable<boolean> = combineLatest([this.selectedItemsObs$, this.filteredProceduresObs$]).pipe(
@@ -49,17 +51,24 @@ export class DashboradComponent implements OnDestroy {
       selectedItems.every(id => {
         const procedure = procedures.find(p => p.id === id);
         return procedure?.isPrivate ?? false;
-      })
-    )
+      }),
+    ),
   );
 
+  /**
+   *
+   * @param sanitizer
+   * @param cdr
+   */
   constructor(
-    private sanitizer: DomSanitizer,
-    private cdr: ChangeDetectorRef
+    private readonly sanitizer: DomSanitizer,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit(): void {
-    // Initialize procedures
+  /**
+   *
+   */
+  public ngOnInit(): void {
     this.procedures$.next([
       {
         id: 1,
@@ -108,132 +117,63 @@ export class DashboradComponent implements OnDestroy {
         showOptions: false,
         mediaCount: 0,
       },
-      {
-        id: 3,
-        name: 'Ashley Atkinson',
-        date: new Date('2025-04-10'),
-        type: 'Video',
-        itemCount: 12,
-        title: 'Thrift Cable Repica',
-        code: 'OR646',
-        progress: 75,
-        isActive: false,
-        isPrivate: false,
-        thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-        mediaUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
-        thumbnails: [
-          'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg',
-        ],
-        mediaType: 'Video',
-        procedure: 'Thrift',
-        status: 'Inactive',
-        showOptions: false,
-        mediaCount: 0,
-      },{
-        id: 4,
-        name: 'Ashley Atkinson',
-        date: new Date('2025-04-10'),
-        type: 'Video',
-        itemCount: 12,
-        title: 'Thrift Cable Repica',
-        code: 'OR646',
-        progress: 75,
-        isActive: false,
-        isPrivate: false,
-        thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-        mediaUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
-        thumbnails: [
-          'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg',
-        ],
-        mediaType: 'Video',
-        procedure: 'Thrift',
-        status: 'Inactive',
-        showOptions: false,
-        mediaCount: 0,
-      },{
-        id: 5,
-        name: 'Ashley Atkinson',
-        date: new Date('2025-04-10'),
-        type: 'Video',
-        itemCount: 12,
-        title: 'Thrift Cable Repica',
-        code: 'OR646',
-        progress: 75,
-        isActive: false,
-        isPrivate: false,
-        thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-        mediaUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
-        thumbnails: [
-          'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg',
-        ],
-        mediaType: 'Video',
-        procedure: 'Thrift',
-        status: 'Inactive',
-        showOptions: false,
-        mediaCount: 0,
-      },{
-        id: 6,
-        name: 'Ashley Atkinson',
-        date: new Date('2025-04-10'),
-        type: 'Video',
-        itemCount: 12,
-        title: 'Thrift Cable Repica',
-        code: 'OR646',
-        progress: 75,
-        isActive: false,
-        isPrivate: false,
-        thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-        mediaUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
-        thumbnails: [
-          'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg',
-        ],
-        mediaType: 'Video',
-        procedure: 'Thrift',
-        status: 'Inactive',
-        showOptions: false,
-        mediaCount: 0,
-      },
     ]);
 
-    // Reset selected items on view mode change
     this.viewModeObs$
       .pipe(takeUntil(this.destroy$), debounceTime(100))
       .subscribe(() => this.selectedItems$.next([]));
   }
 
-  // Event handlers
-  onViewModeChange(viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'): void {
+  /**
+   * Changes the view mode of the dashboard.
+   * @param viewMode - The new view mode to set.
+   */
+  public onViewModeChange = (viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'): void => {
     this.viewMode$.next(viewMode);
-  }
+  };
 
-  onTileClick(procedure: Project): void {
+  /**
+   * Handles tile click to show its details in the gallery.
+   * @param procedure - The project to display.
+   */
+  public onTileClick = (procedure: Project): void => {
     this.selectedProcedure$.next(procedure);
-  }
+  };
 
-  closeGallery(): void {
+  /**
+   * Closes the gallery view.
+   */
+  public closeGallery = (): void => {
     this.selectedProcedure$.next(null);
-  }
+  };
 
-  togglePrivate(procedure: Project): void {
+  /**
+   * Toggles the private status of a procedure.
+   * @param procedure - The project to toggle.
+   */
+  public togglePrivate = (procedure: Project): void => {
     const procedures = this.procedures$.value;
     const updatedProcedure = { ...procedure, isPrivate: !procedure.isPrivate };
     const updatedProcedures = procedures.map(p => (p.id === procedure.id ? updatedProcedure : p));
     this.procedures$.next(updatedProcedures);
-  }
+  };
 
-  toggleSelection(id: number): void {
+  /**
+   * Toggles selection of a procedure by ID.
+   * @param id - The ID of the procedure to toggle.
+   */
+  public toggleSelection = (id: number): void => {
     const currentSelection = this.selectedItems$.value;
     const newSelection = currentSelection.includes(id)
       ? currentSelection.filter(item => item !== id)
       : [...currentSelection, id];
     this.selectedItems$.next(newSelection);
-  }
+  };
 
-  togglePrivateForSelected(): void {
+  /**
+   * Toggles the private status of all selected procedures.
+   */
+  public togglePrivateForSelected = (): void => {
     const allPrivate = this.selectedItems$.value.every(id => {
       const procedure = this.procedures$.value.find(p => p.id === id);
       return procedure?.isPrivate ?? false;
@@ -247,41 +187,57 @@ export class DashboradComponent implements OnDestroy {
       return procedure;
     });
     this.procedures$.next(updatedProcedures);
-  }
+  };
 
-  clearSelection(): void {
+  /**
+   * Clears the current selection of procedures.
+   */
+  public clearSelection = (): void => {
     this.selectedItems$.next([]);
-  }
+  };
 
-  onAddTile(tile: Project): void {
+  /**
+   * Adds a new tile to the dashboard.
+   * @param tile - The project tile to add.
+   */
+  public onAddTile = (tile: Project): void => {
     const procedures = this.procedures$.value;
-    console.log('Received tile to add:', tile);
     if (!procedures.some(p => p.id === tile.id)) {
-      console.log('Adding tile to procedures:', tile);
       this.procedures$.next([...procedures, tile]);
-      this.cdr.detectChanges(); // Force change detection
-    } else {
-      console.log('Tile already exists in procedures:', tile.id);
+      this.cdr.detectChanges();
     }
-  }
+  };
 
-  onRemoveTile(id: number): void {
+  /**
+   * Removes a tile from the dashboard by ID.
+   * @param id - The ID of the tile to remove.
+   */
+  public onRemoveTile = (id: number): void => {
     const procedures = this.procedures$.value;
-    console.log('Removing tile with id:', id);
     this.procedures$.next(procedures.filter(p => p.id !== id));
-    this.cdr.detectChanges(); // Force change detection
-  }
+    this.cdr.detectChanges();
+  };
 
-  toggleTilesMore(): void {
+  /**
+   * Toggles the visibility of the "Tiles More" section.
+   */
+  public toggleTilesMore = (): void => {
     this.showTilesMore = !this.showTilesMore;
-  }
+  };
 
-  // Sanitize URLs for safe rendering
-  safeUrl(url: string): SafeResourceUrl {
+  /**
+   * Sanitizes a URL for safe rendering in the template.
+   * @param url - The URL to sanitize.
+   * @returns A sanitized SafeResourceUrl.
+   */
+  public safeUrl = (url: string): SafeResourceUrl => {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
+  };
 
-  ngOnDestroy(): void {
+  /**
+   *
+   */
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

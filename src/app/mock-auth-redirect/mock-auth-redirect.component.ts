@@ -1,18 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { MockKeycloakService } from '../auth/mock-keycloak.service';
 
+/**
+ *
+ */
 @Component({
   selector: 'app-mock-auth-redirect',
   template: '<p>Redirecting...</p>'
 })
 export class MockAuthRedirectComponent implements OnInit {
+  /**
+   *
+   * @param keycloakService
+   * @param router
+   * @returns void
+   */
   constructor(
     private keycloakService: MockKeycloakService,
     private router: Router
   ) {}
 
-  async ngOnInit() {
+  /**
+   *
+   */
+  async ngOnInit():Promise<void> {
     try {
       await this.keycloakService.getKeycloakInstance().updateToken(30);
       this.router.navigate(['/']);
