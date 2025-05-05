@@ -1,26 +1,6 @@
 <!-- navigation.component.html -->
 <mat-toolbar color="primary" class="mat-elevation-z2 nav-toolbar">
-  <button
-    class="menu-button"
-    mat-button
-    [matMenuTriggerFor]="menu"
-    [ngClass]="{ active: isMobileMenuOpen }"
-    (click)="toggleMobileMenu()"
-  >
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <mat-menu #menu="matMenu" >
-    <button style="background-color: white;"
-      mat-menu-item
-      *ngFor="let item of menuItems"
-      [routerLink]="item.route"
-      (click)="toggleMobileMenu()"
-    >
-      {{ item.label }}
-    </button>
-  </mat-menu>
+
   &nbsp; &nbsp; &nbsp; &nbsp;
   <span class="app-title">Baxter-MAM Soup Testing </span>
   <span class="spacer"></span>

@@ -1,10 +1,22 @@
-<!-- tiles-more-options.component.html -->
 <div class="tiles-container">
   <div class="tile" *ngFor="let item of items">
     <div class="tile-content">
+      <img [src]="item.thumbnail" alt="Thumbnail" class="w-full h-48 object-cover rounded" />
       <h3>{{ item.title }}</h3>
-      <p>{{ item.description }}</p>
-      <span class="tile-status" [ngClass]="item.status === 'Active' ? 'status-active' : 'status-inactive'">
+      <p>{{ item.name }} - {{ item.date | date: 'yyyy-MM-dd' }}</p>
+      <p>{{ item.type }} ({{ item.itemCount }} items)</p>
+      <p>Progress: {{ item.progress }}%</p>
+      <div class="w-full bg-gray-300 rounded-full h-2">
+        <div
+          [style.width]="item.progress + '%'"
+          [ngClass]="{'bg-green-500': item.progress >= 50, 'bg-red-500': item.progress < 50}"
+          class="h-2 rounded-full"
+        ></div>
+      </div>
+      <span
+        class="tile-status"
+        [ngClass]="item.status === 'Active' ? 'status-active' : 'status-inactive'"
+      >
         {{ item.status }}
       </span>
     </div>
@@ -14,7 +26,7 @@
       </button>
       <div class="options-menu" *ngIf="item.showOptions">
         <ul>
-          <li><a href="#" (click)="handleAction(item.id, 'edit')">Edit</a></li>
+          <li><a href="#" (click)="handleAction(item.id, 'add')">Add to Dashboard</a></li>
           <li><a href="#" (click)="handleAction(item.id, 'delete')">Delete</a></li>
           <li><a href="#" (click)="handleAction(item.id, 'view')">View Details</a></li>
         </ul>

@@ -1,54 +1,31 @@
-
-<div class="search-controls-container">
-  <!-- Search Bar -->
-  <mat-form-field appearance="outline" class="search-bar">
-    <mat-label>Search</mat-label>
-    <input matInput placeholder="Enter keywords..." [(ngModel)]="searchQuery" (input)="performSearch()">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
-
-  <!-- Filter and Sort Controls -->
-  <div class="controls">
-    <!-- Filter by Category -->
-    <mat-form-field appearance="outline" class="filter-select">
-      <mat-label>Filter by Category</mat-label>
-      <mat-select [(ngModel)]="selectedCategory" (selectionChange)="performSearch()" >
-        <mat-option *ngFor="let category of categories" [value]="category.id" style="background-color: white;">
-          {{ category.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- Sort Options -->
-    <mat-form-field appearance="outline" class="sort-select">
-      <mat-label>Sort By</mat-label>
-      <mat-select [(ngModel)]="selectedSort" (selectionChange)="performSearch()"  >
-        <mat-option *ngFor="let sort of sortOptions" [value]="sort.id" style="background-color: white;">
-          {{ sort.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- Clear Button -->
-    <button mat-raised-button color="accent" (click)="clearSearch()">Clear</button>
-  </div>
-
-  <!-- Search Results -->
-  <div class="results-container">
-    <mat-list role="list">
-      <mat-list-item
-        *ngFor="let result of filteredResults"
-        role="listitem"
-        [ngClass]="{'active': result.isActive}"
-        (click)="selectResult(result)"
+<div class="flex justify-between items-center mb-6">
+  <div class="flex items-center space-x-4">
+    <div class="relative">
+      <select
+        [ngModel]="viewMode"
+        (ngModelChange)="onViewModeChange($event)"
+        class="border rounded px-3 py-2 bg-blue-500 text-white"
       >
-        <mat-icon matListItemIcon>{{ result.icon }}</mat-icon>
-        <span matListItemTitle>{{ result.title }}</span>
-        <span matListItemLine>{{ result.description }}</span>
-      </mat-list-item>
-      <div *ngIf="filteredResults.length === 0" class="no-results">
-        No results found.
-      </div>
-    </mat-list>
+        <option value="tiles">Procedure Tiles</option>
+        <option value="thumbnails-large">Thumbnails Large</option>
+        <option value="thumbnails-small">Thumbnails Small</option>
+      </select>
+    </div>
   </div>
+</div>
+
+<!-- Bulk Actions for Multiple Selection -->
+<div *ngIf="selectedItems.length > 0" class="mb-4 flex space-x-2">
+  <button
+    (click)="onTogglePrivateForSelected()"
+    class="bg-gray-500 text-white px-4 py-2 rounded"
+  >
+    {{ allSelectedPrivate ? 'Unmark as Private' : 'Mark as Private' }}
+  </button>
+  <button
+    (click)="onClearSelection()"
+    class="bg-gray-300 text-black px-4 py-2 rounded"
+  >
+    Clear Selection
+  </button>
 </div>

@@ -1,15 +1,107 @@
+<div
+  (click)="onTileClick()"
+  [ngClass]="{
+    'bg-gray-800 text-white rounded-lg p-4 cursor-pointer': viewMode === 'tiles',
+    'bg-gray-800 text-white rounded-lg p-2 cursor-pointer': viewMode === 'thumbnails-large',
+    'bg-gray-800 text-white rounded-lg p-1 cursor-pointer': viewMode === 'thumbnails-small',
+    'border-2 border-blue-500': isSelected
+  }"
+>
+  <!-- Thumbnail -->
+  <img
+    [src]="procedure.thumbnail"
+    alt="Thumbnail"
+    [ngClass]="{
+      'w-full h-48 object-cover rounded': viewMode === 'tiles',
+      'w-full h-32 object-cover rounded': viewMode === 'thumbnails-large',
+      'w-full h-20 object-cover rounded': viewMode === 'thumbnails-small'
+    }"
+  />
 
-<div class="procedure-tiles-container">
-  <mat-list role="list">
-    <mat-list-item
-      *ngFor="let procedure of procedures"
-      role="listitem"
-      [ngClass]="{'active': procedure.isActive}"
-      (click)="selectProcedure(procedure)"
+  <!-- Item Information -->
+  <div class="mt-2">
+    <h2
+      [ngClass]="{
+        'text-lg': viewMode === 'tiles',
+        'text-md': viewMode === 'thumbnails-large',
+        'text-sm': viewMode === 'thumbnails-small'
+      }"
     >
-      <mat-icon matListItemIcon>{{ procedure.icon }}</mat-icon>
-      <span matListItemTitle>{{ procedure.title }}</span>
-      <span matListItemLine>{{ procedure.description }}</span>
-    </mat-list-item>
-  </mat-list>
+      {{ procedure.name }}
+    </h2>
+    <p
+      [ngClass]="{
+        'text-sm': viewMode === 'tiles',
+        'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+      }"
+    >
+      {{ procedure.date | date: 'yyyy-MM-dd' }}
+    </p>
+    <p
+      [ngClass]="{
+        'text-sm': viewMode === 'tiles',
+        'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+      }"
+    >
+      {{ procedure.type }} ({{ procedure.itemCount }} items)
+    </p>
+    <p
+      [ngClass]="{
+        'text-sm': viewMode === 'tiles',
+        'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+      }"
+    >
+      {{ procedure.title }} / {{ procedure.code }}
+    </p>
+    <div class="mt-2">
+      <p
+        [ngClass]="{
+          'text-sm': viewMode === 'tiles',
+          'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+        }"
+      >
+        Progress: {{ procedure.progress }}%
+      </p>
+      <div class="w-full bg-gray-300 rounded-full h-2">
+        <div
+          [style.width]="procedure.progress + '%'"
+          [ngClass]="{
+            'bg-green-500': procedure.progress >= 50,
+            'bg-red-500': procedure.progress < 50
+          }"
+          class="h-2 rounded-full"
+        ></div>
+      </div>
+    </div>
+    <button
+      [ngClass]="{
+        'bg-green-500 text-white px-3 py-1 rounded mt-2': procedure.isActive,
+        'bg-pink-500 text-white px-3 py-1 rounded mt-2': !procedure.isActive
+      }"
+    >
+      {{ procedure.isActive ? 'Active' : 'Inactive' }}
+    </button>
+    <!-- Private Toggle -->
+    <button
+      (click)="onTogglePrivate($event)"
+      class="bg-gray-500 text-white px-3 py-1 rounded mt-2 ml-2"
+    >
+      {{ procedure.isPrivate ? 'Unmark Private' : 'Mark Private' }}
+    </button>
+    <!-- Delete Button -->
+    <button
+      (click)="onRemoveTile($event)"
+      class="bg-red-500 text-white px-3 py-1 rounded mt-2 ml-2"
+    >
+      Delete
+    </button>
+    <!-- Checkbox for Multiple Selection -->
+     &nbsp;&nbsp;
+    <input
+      type="checkbox"
+      class="mt-2"
+      [checked]="isSelected"
+      (click)="onToggleSelection($event)"
+    />
+  </div>
 </div>

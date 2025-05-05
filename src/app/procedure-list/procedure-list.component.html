@@ -1,15 +1,19 @@
-<div class="list-container">
-  <mat-list role="list">
-    <mat-list-item
-      *ngFor="let item of listItems"
-      role="listitem"
-      [ngClass]="{'active': item.isActive}"
-      (click)="selectItem(item)"
-      [routerLink]="item.path"
-    >
-      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-      <span matListItemTitle>{{ item.title }}</span>
-      <span matListItemLine>{{ item.description }}</span>
-    </mat-list-item>
-  </mat-list>
+<div
+  *ngIf="viewMode"
+  [ngClass]="{
+    'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6': viewMode === 'tiles',
+    'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4': viewMode === 'thumbnails-large',
+    'grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2': viewMode === 'thumbnails-small'
+  }"
+>
+  <app-procedure-tiles
+    *ngFor="let procedure of procedures"
+    [procedure]="procedure"
+    [viewMode]="viewMode"
+    [isSelected]="selectedItems.includes(procedure.id)"
+    (tileClick)="onTileClick($event)"
+    (togglePrivate)="onTogglePrivate($event)"
+    (toggleSelection)="onToggleSelection($event)"
+    (removeTile)="onRemoveTile($event)"
+  ></app-procedure-tiles>
 </div>

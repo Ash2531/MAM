@@ -26,6 +26,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SafePipe } from './safe.pipe';
+import { TilesMoreOptionComponent } from "./tiles-more-option/tiles-more-option.component";
 export function initializeApp(keycloakService: MockKeycloakService) {
   return () => keycloakService.init();
 }
@@ -64,14 +65,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatTabsModule,
     MatCardModule,
     TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
-
-  ],
+        loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+        }
+    }),
+    TilesMoreOptionComponent
+],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
     {

@@ -16,14 +16,13 @@ export class NavigationComponent {
   menuItems: MenuItem[] = [];
   username: string = 'User';
   email: string = 'Email';
-  isMobileMenuOpen = false;
   constructor(private translate: TranslateService,private keycloakService: MockKeycloakService) {
     this.translate.setDefaultLang('en');
     this.menuItems = [
-      { label: 'Procedure List', route: '/procedure-list' },
-      { label: 'Procedure Tiles', route: '/procedure-tiles' },
-      { label: 'Search Controls', route: '/search-controls' },
       { label:  'Tiles-More ', route: '/tiles-more' },
+      { label: 'Nav Menu Check ', route: '/dashboard' },
+      { label: ' Nav 1', route: '/dashboard' },
+      { label: 'Nav 2', route: '/dashboard' },
     ];
   }
   async ngOnInit()   {
@@ -34,9 +33,7 @@ export class NavigationComponent {
 
    }
 
-  toggleMobileMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  }
+
 
   logout() {
     this.keycloakService.logout();
