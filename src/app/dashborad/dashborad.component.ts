@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, debounceTime, map, Observable, Subject, takeUntil } from 'rxjs';
 
 interface Project {
@@ -38,7 +39,7 @@ export class DashboradComponent implements OnDestroy {
   public readonly procedures$ = new BehaviorSubject<Project[]>([]);
   private readonly destroy$ = new Subject<void>();
   showTilesMore = false;
-
+  translatedText!: string;
   viewModeObs$: Observable<'tiles' | 'thumbnails-large' | 'thumbnails-small'> = this.viewMode$.asObservable();
   selectedItemsObs$: Observable<number[]> = this.selectedItems$.asObservable();
   selectedProcedureObs$: Observable<Project | null> = this.selectedProcedure$.asObservable();
@@ -63,17 +64,24 @@ export class DashboradComponent implements OnDestroy {
   constructor(
     private readonly sanitizer: DomSanitizer,
     private readonly cdr: ChangeDetectorRef,
+    private translate: TranslateService,
   ) {}
 
   /**
    *
    */
   public ngOnInit(): void {
+
+    this.translate.get('welcome_message', { name: 'John' }).subscribe((text: string) => {
+      this.translatedText = text;
+    });
+
+
     this.procedures$.next([
       {
         id: 1,
         name: 'Adam Garcia',
-        date: new Date('2025-03-25'),
+        date: new Date('2024-07-13'),
         type: 'Video',
         itemCount: 10,
         title: 'Storewide Satiable Swoop',
@@ -86,18 +94,18 @@ export class DashboradComponent implements OnDestroy {
         thumbnails: [
           'https://img.youtube.com/vi/5qap5aO4i9A/0.jpg',
           'https://img.youtube.com/vi/5qap5aO4i9A/1.jpg',
-          'https://img.youtube.com/vi/5qap5aO4i9A/2.jpg',
+          'https://img.youtube.com/vi/5qap5aO4i9A/2.jpg'
         ],
         mediaType: 'Video',
         procedure: 'Storewide',
         status: 'Active',
         showOptions: false,
-        mediaCount: 0,
+        mediaCount: 0
       },
       {
         id: 2,
         name: 'Ashley Atkinson',
-        date: new Date('2025-04-10'),
+        date: new Date('2025-08-10'),
         type: 'Video',
         itemCount: 12,
         title: 'Thrift Cable Repica',
@@ -109,14 +117,85 @@ export class DashboradComponent implements OnDestroy {
         mediaUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
         thumbnails: [
           'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg',
+          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg'
         ],
         mediaType: 'Video',
         procedure: 'Thrift',
         status: 'Inactive',
         showOptions: false,
-        mediaCount: 0,
+        mediaCount: 0
       },
+      {
+        id: 3,
+        name: 'Brian Carter',
+        date: new Date('2025-01-10'),
+        type: 'Video',
+        itemCount: 8,
+        title: 'Inventory Sync Flow',
+        code: 'OR723',
+        progress: 60,
+        isActive: true,
+        isPrivate: true,
+        thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg',
+        mediaUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        thumbnails: [
+          'https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg',
+          'https://img.youtube.com/vi/dQw4w9WgXcQ/1.jpg',
+          'https://img.youtube.com/vi/dQw4w9WgXcQ/2.jpg'
+        ],
+        mediaType: 'Video',
+        procedure: 'Inventory',
+        status: 'Active',
+        showOptions: false,
+        mediaCount: 0
+      },
+      {
+        id: 4,
+        name: 'Clara Donovan',
+        date: new Date('2025-14-01'),
+        type: 'Image',
+        itemCount: 15,
+        title: 'Warehouse Sorting Guide',
+        code: 'OR801',
+        progress: 45,
+        isActive: false,
+        isPrivate: false,
+        thumbnail: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        mediaUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        thumbnails: [
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&fit=crop&h=150&w=200'
+        ],
+        mediaType: 'Image',
+        procedure: 'Warehouse',
+        status: 'Inactive',
+        showOptions: false,
+        mediaCount: 0
+      },
+      {
+        id: 5,
+        name: 'David Evans',
+        date: new Date('2022-03-18'),
+        type: 'Video',
+        itemCount: 5,
+        title: 'Retail Audit Process',
+        code: 'OR912',
+        progress: 95,
+        isActive: true,
+        isPrivate: false,
+        thumbnail: 'https://img.youtube.com/vi/3tmd-ClpJxA/0.jpg',
+        mediaUrl: 'https://www.youtube.com/embed/3tmd-ClpJxA',
+        thumbnails: [
+          'https://img.youtube.com/vi/3tmd-ClpJxA/0.jpg',
+          'https://img.youtube.com/vi/3tmd-ClpJxA/1.jpg',
+          'https://img.youtube.com/vi/3tmd-ClpJxA/2.jpg'
+        ],
+        mediaType: 'Video',
+        procedure: 'Retail',
+        status: 'Active',
+        showOptions: false,
+        mediaCount: 0
+      }
     ]);
 
     this.viewModeObs$

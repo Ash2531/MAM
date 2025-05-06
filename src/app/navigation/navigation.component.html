@@ -2,14 +2,14 @@
 <mat-toolbar color="primary" class="mat-elevation-z2 nav-toolbar">
 
   &nbsp; &nbsp; &nbsp; &nbsp;
-  <span class="app-title">Baxter-MAM Soup Testing </span>
+  <span class="app-title">{{ 'Title' | translate}} </span>
   <span class="spacer"></span>
   <!-- Language Dropdown -->
   <mat-form-field appearance="fill" class="lang-select">
   <mat-label>Language</mat-label>
-  <mat-select (selectionChange)="switchLanguage($event.value)">
+  <mat-select [(ngModel)]="selectedOption" (selectionChange)="switchLanguage($event.value)">
   <mat-option value="en">English</mat-option>
-  <mat-option value="Fr">Francis</mat-option>
+  <mat-option value="fr">Francis</mat-option>
   </mat-select>
   </mat-form-field>
   <!-- Avatar + Menu -->
@@ -18,12 +18,12 @@
   </button>
   <mat-menu #userMenu="matMenu" >
   <div class="user-info py-0 px-4">
-  <p><strong>Name:</strong> {{ username }}</p>
-  <p><strong>Email:</strong> {{ email }}</p>
+  <p><strong>{{'Name:' | translate}}</strong> {{ username }}</p>
+  <p><strong>{{'Email:'  | translate}}</strong> {{ email }}</p>
   </div>
   <button mat-menu-item (click)="logout()">
   <mat-icon>logout</mat-icon>
-  <span>Logout</span>
+  <span>{{'Logout' | translate}}</span>
   </button>
   </mat-menu>
   </mat-toolbar>

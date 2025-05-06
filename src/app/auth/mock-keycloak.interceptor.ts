@@ -18,7 +18,7 @@ export class MockKeycloakInterceptor implements HttpInterceptor {
    *
    * @param req
    * @param next
-   * @returns Observable<HttpEvent<TokenResponse>>
+   * @returns HttpResponse from token endpoint
    */
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<TokenResponse>> {
 

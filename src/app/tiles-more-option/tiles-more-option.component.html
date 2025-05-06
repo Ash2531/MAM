@@ -4,8 +4,8 @@
       <img [src]="item.thumbnail" alt="Thumbnail" class="w-full h-48 object-cover rounded" />
       <h3>{{ item.title }}</h3>
       <p>{{ item.name }} - {{ item.date | date: 'yyyy-MM-dd' }}</p>
-      <p>{{ item.type }} ({{ item.itemCount }} items)</p>
-      <p>Progress: {{ item.progress }}%</p>
+      <p>{{ item.type }} ({{ item.itemCount }} {{'items'| translate}})</p>
+      <p>{{'Progress' | translate }}: {{ item.progress }}%</p>
       <div class="w-full bg-gray-300 rounded-full h-2">
         <div
           [style.width]="item.progress + '%'"
@@ -17,7 +17,7 @@
         class="tile-status"
         [ngClass]="item.status === 'Active' ? 'status-active' : 'status-inactive'"
       >
-        {{ item.status }}
+        {{ item.status | translate }}
       </span>
     </div>
     <div class="more-options">

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface Project {
   id: number;
@@ -28,7 +29,7 @@ interface Project {
 @Component({
   selector: 'app-tiles-more-option',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,TranslateModule],
   templateUrl: './tiles-more-option.component.html',
   styleUrls: ['./tiles-more-option.component.scss'],
 })
@@ -38,7 +39,7 @@ export class TilesMoreOptionComponent {
 
   readonly items: Project[] = [
     {
-      id: 3,
+      id: 6,
       name: 'Charlie Brown',
       date: new Date('2025-05-15'),
       type: 'Image',
@@ -61,7 +62,7 @@ export class TilesMoreOptionComponent {
       mediaCount: 0,
     },
     {
-      id: 4,
+      id: 7,
       name: 'Diana Evans',
       date: new Date('2025-06-01'),
       type: 'Video',

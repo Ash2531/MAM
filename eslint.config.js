@@ -108,6 +108,7 @@ module.exports = [
         es2021: true,
         window: true,
         console: true,
+        localStorage:true
       },
     },
     plugins: {
@@ -155,6 +156,7 @@ module.exports = [
         jasmine: true,
         window: true,
         console: true,
+        localStorage: true,
         // Explicitly define Jasmine globals
         describe: true,
         beforeEach: true,

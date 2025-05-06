@@ -1,5 +1,21 @@
 {
-    "HELLO": "Hello",
-    "WELCOME": "Welcome to our application!"
+    "Title": "Baxter-MAM Soup Testing",
+    "Thumbnail_Large": "Thumbnail Large",
+    "Thumbnail_Small": "Thumbnail Small",
+    "Show More Tiles" :"Show More Tiles",
+    "Hide More Tiles": "Hide More Tiles",
+    "Active": "Active",
+    "Inactive": "Inactive",
+    "Private": "Private",
+    "Unprivate": "Unprivate",
+    "Delete": "Delete",
+    "Progress": "Progress",
+    "Close": "Close",
+    "Name:": "Name:",
+    "Email:" : "Email:",
+    "Clear Selection" : "Clear Selection",
+    "items": "items",
+    "Additional Tiles": "Additional Tiles",
+    "Logout": "Logout"
+
 }
-    

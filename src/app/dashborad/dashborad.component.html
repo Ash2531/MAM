@@ -26,10 +26,10 @@
       (click)="toggleTilesMore()"
       class="bg-blue-500 text-white px-4 py-2 rounded mb-4"
     >
-      {{ showTilesMore ? 'Hide More Tiles' : 'Show More Tiles' }}
+      {{ showTilesMore ? ('Hide More Tiles' | translate) :('Show More Tiles'| translate) }}
     </button>
     <div *ngIf="showTilesMore" class="tiles-more-section">
-      <h2 class="text-2xl mb-4">Additional Tiles</h2>
+      <h2 class="text-2xl mb-4">{{'Additional Tiles' | translate}}</h2>
       <app-tiles-more-option
         (addTile)="onAddTile($event)"
         (removeTile)="onRemoveTile($event)"
@@ -59,7 +59,7 @@
             d="M6 18L18 6M6 6l12 12"
           ></path>
         </svg>
-        Close
+        {{ 'Close' | translate}}
       </button>
       <!-- Main Preview (Image or Video) -->
       <div *ngIf="selectedProcedure.type === 'Video'; else imagePreview">

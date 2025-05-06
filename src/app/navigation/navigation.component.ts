@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -7,8 +8,6 @@ interface MenuItem {
   label: string;
   route: string;
 }
-
-
 /**
  *
  */
@@ -21,6 +20,7 @@ export class NavigationComponent {
   menuItems: MenuItem[] = [];
   username: string = 'User';
   email: string = 'Email';
+  selectedOption : string = 'en';
   /**
    *
    * @param translate
@@ -44,6 +44,15 @@ export class NavigationComponent {
     this.email = profile?.email || 'Email';
     console.log('User Profile:', profile);
 
+    if(localStorage.getItem('language')){
+
+      this.selectedOption = localStorage.getItem('language') || 'en';
+      this.translate.use(this.selectedOption);
+    }
+    else{
+      this.translate.setDefaultLang('en');
+      localStorage.setItem('language','en');
+    }
   }
 
 
@@ -62,6 +71,8 @@ export class NavigationComponent {
    */
   switchLanguage(language: string): void {
     this.translate.use(language);
+    localStorage.setItem('language',language);
+    this.selectedOption = language;
   }
 
 }

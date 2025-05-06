@@ -1,5 +1,22 @@
 {
-    "HELLO": "Bonjour",
-    "WELCOME": "Bienvenue dans notre application!"
-  }
-  
+    "Title": "Test de soupe Baxter-MAM",
+    "Procedure Tiles": "Tuiles de Procédure",
+    "Thumbnail_Large": "Vignettes Grandes",
+    "Thumbnail_Small": "Vignettes Petites",
+    "Show More Tiles": "Afficher Plus de Tuiles",
+    "Hide More Tiles": "Masquer Plus de Tuiles",
+    "Active": "Actif",
+    "Inactive": "Inactif",
+    "Private": "Privé",
+    "Unprivate": "Non Privé",
+    "Delete": "Supprimer",
+    "Progress": "Progrès",
+    "Close": "Fermer",
+    "Name:": "Nom:",
+    "Email:": "E-mail:",
+    "Clear Selection": "Effacer la Sélection",
+    "items": "articles",
+    "Additional Tiles": "Tuiles Supplémentaires",
+    "Logout": "Déconnexion"
+
+}
