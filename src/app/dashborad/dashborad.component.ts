@@ -60,6 +60,7 @@ export class DashboradComponent implements OnDestroy {
    *
    * @param sanitizer
    * @param cdr
+   * @param translate
    */
   constructor(
     private readonly sanitizer: DomSanitizer,

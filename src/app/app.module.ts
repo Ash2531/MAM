@@ -21,7 +21,6 @@ import { AppComponent } from './app.component';
 import { MockKeycloakInterceptor } from './auth/mock-keycloak.interceptor';
 import { MockKeycloakService } from './auth/mock-keycloak.service';
 import { DashboradComponent } from './dashborad/dashborad.component';
-import { MockAuthRedirectComponent } from './mock-auth-redirect/mock-auth-redirect.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ProcedureListComponent } from './procedure-list/procedure-list.component';
 import { ProcedureTilesComponent } from './procedure-tiles/procedure-tiles.component';
@@ -55,7 +54,6 @@ export const HttpLoaderFactory = (http: HttpClient): TranslateHttpLoader => {
 @NgModule({
   declarations: [
     AppComponent,
-    MockAuthRedirectComponent,
     NavigationComponent,
     ProcedureListComponent,
     ProcedureTilesComponent,
