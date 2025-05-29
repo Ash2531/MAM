@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 interface Project {
   id: number;
   name: string;
-  date: Date;
+  date: Date | string;
   mediaType: string;
   mediaCount: number;
   procedure: string;
@@ -26,6 +26,7 @@ interface Project {
  */
 @Component({
   selector: 'app-procedure-list',
+  standalone: false,
   templateUrl: './procedure-list.component.html',
   styleUrls: ['./procedure-list.component.scss'],
 })

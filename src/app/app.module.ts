@@ -15,6 +15,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ApolloModule } from 'apollo-angular';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,7 +36,7 @@ import { TilesMoreOptionComponent } from './tiles-more-option/tiles-more-option.
  */
 // This function initializes the Keycloak service before the app starts/starts/loads.
 export const initializeApp = (keycloakService: MockKeycloakService): (() => Promise<boolean>) => {
-  return () => keycloakService.init();
+  return () => keycloakService.init().then(() => true);
 };
 // AoT requires an exported function for factories
 /**
@@ -64,6 +66,7 @@ export const HttpLoaderFactory = (http: HttpClient): TranslateHttpLoader => {
   ],
   bootstrap: [AppComponent],
   imports: [
+    ApolloModule,
     BrowserModule,
     CommonModule,
     AppRoutingModule,
@@ -77,6 +80,7 @@ export const HttpLoaderFactory = (http: HttpClient): TranslateHttpLoader => {
     MatSelectModule,
     MatTabsModule,
     MatCardModule,
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { format, isValid } from 'date-fns';
 
 interface Project {
   id: number;
   name: string;
-  date: Date;
+  date: Date | string;
   mediaType: string;
   mediaCount: number;
   procedure: string;
@@ -26,6 +27,7 @@ interface Project {
  */
 @Component({
   selector: 'app-procedure-tiles',
+  standalone: false,
   templateUrl: './procedure-tiles.component.html',
   styleUrls: ['./procedure-tiles.component.scss'],
 })
@@ -71,4 +73,15 @@ export class ProcedureTilesComponent {
     event.stopPropagation();
     this.removeTile.emit(this.procedure.id);
   };
+
+  // Format the date to a readable string
+  formatDate = (date: Date | string, dateFormat = 'yyyy-MM-dd'): string => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    if (!isValid(dateObj)) {
+      return 'Invalid date';
+    }
+    return format(dateObj, dateFormat);
+  };
+
+
 }

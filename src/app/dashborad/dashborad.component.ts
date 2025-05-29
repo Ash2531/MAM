@@ -1,12 +1,21 @@
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, combineLatest, debounceTime, map, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
+
 
 interface Project {
   id: number;
   name: string;
-  date: Date;
+  date: Date | string;
   mediaType: string;
   mediaCount: number;
   procedure: string;
@@ -29,31 +38,42 @@ interface Project {
  */
 @Component({
   selector: 'app-dashborad',
+  standalone: false,
   templateUrl: './dashborad.component.html',
   styleUrls: ['./dashborad.component.scss'],
 })
 export class DashboradComponent implements OnDestroy {
-  private readonly viewMode$ = new BehaviorSubject<'tiles' | 'thumbnails-large' | 'thumbnails-small'>('tiles');
+  private readonly viewMode$ = new BehaviorSubject<
+    'tiles' | 'thumbnails-large' | 'thumbnails-small'
+  >('tiles');
   private readonly selectedItems$ = new BehaviorSubject<number[]>([]);
-  private readonly selectedProcedure$ = new BehaviorSubject<Project | null>(null);
+  private readonly selectedProcedure$ = new BehaviorSubject<Project | null>(
+    null
+  );
   public readonly procedures$ = new BehaviorSubject<Project[]>([]);
   private readonly destroy$ = new Subject<void>();
+  formattedDate = '';
   showTilesMore = false;
   translatedText!: string;
-  viewModeObs$: Observable<'tiles' | 'thumbnails-large' | 'thumbnails-small'> = this.viewMode$.asObservable();
+  viewModeObs$: Observable<'tiles' | 'thumbnails-large' | 'thumbnails-small'> =
+    this.viewMode$.asObservable();
   selectedItemsObs$: Observable<number[]> = this.selectedItems$.asObservable();
-  selectedProcedureObs$: Observable<Project | null> = this.selectedProcedure$.asObservable();
+  selectedProcedureObs$: Observable<Project | null> =
+    this.selectedProcedure$.asObservable();
   filteredProceduresObs$: Observable<Project[]> = this.procedures$.pipe(
-    map(procedures => procedures ?? []),
+    map((procedures) => procedures ?? [])
   );
 
-  allSelectedPrivateObs$: Observable<boolean> = combineLatest([this.selectedItemsObs$, this.filteredProceduresObs$]).pipe(
+  allSelectedPrivateObs$: Observable<boolean> = combineLatest([
+    this.selectedItemsObs$,
+    this.filteredProceduresObs$,
+  ]).pipe(
     map(([selectedItems, procedures]) =>
-      selectedItems.every(id => {
-        const procedure = procedures.find(p => p.id === id);
+      selectedItems.every((id) => {
+        const procedure = procedures.find((p) => p.id === id);
         return procedure?.isPrivate ?? false;
-      }),
-    ),
+      })
+    )
   );
 
   /**
@@ -61,6 +81,8 @@ export class DashboradComponent implements OnDestroy {
    * @param sanitizer
    * @param cdr
    * @param translate
+   * @param apollo
+   * @param gqlSse
    */
   constructor(
     private readonly sanitizer: DomSanitizer,
@@ -72,11 +94,11 @@ export class DashboradComponent implements OnDestroy {
    *
    */
   public ngOnInit(): void {
-
-    this.translate.get('welcome_message', { name: 'John' }).subscribe((text: string) => {
-      this.translatedText = text;
-    });
-
+    this.translate
+      .get('welcome_message', { name: 'John' })
+      .subscribe((text: string) => {
+        this.translatedText = text;
+      });
 
     this.procedures$.next([
       {
@@ -95,13 +117,13 @@ export class DashboradComponent implements OnDestroy {
         thumbnails: [
           'https://img.youtube.com/vi/5qap5aO4i9A/0.jpg',
           'https://img.youtube.com/vi/5qap5aO4i9A/1.jpg',
-          'https://img.youtube.com/vi/5qap5aO4i9A/2.jpg'
+          'https://img.youtube.com/vi/5qap5aO4i9A/2.jpg',
         ],
         mediaType: 'Video',
         procedure: 'Storewide',
         status: 'Active',
         showOptions: false,
-        mediaCount: 0
+        mediaCount: 0,
       },
       {
         id: 2,
@@ -118,13 +140,13 @@ export class DashboradComponent implements OnDestroy {
         mediaUrl: 'https://www.youtube.com/embed/9bZkp7q19f0',
         thumbnails: [
           'https://img.youtube.com/vi/9bZkp7q19f0/0.jpg',
-          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg'
+          'https://img.youtube.com/vi/9bZkp7q19f0/1.jpg',
         ],
         mediaType: 'Video',
         procedure: 'Thrift',
         status: 'Inactive',
         showOptions: false,
-        mediaCount: 0
+        mediaCount: 0,
       },
       {
         id: 3,
@@ -142,13 +164,13 @@ export class DashboradComponent implements OnDestroy {
         thumbnails: [
           'https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg',
           'https://img.youtube.com/vi/dQw4w9WgXcQ/1.jpg',
-          'https://img.youtube.com/vi/dQw4w9WgXcQ/2.jpg'
+          'https://img.youtube.com/vi/dQw4w9WgXcQ/2.jpg',
         ],
         mediaType: 'Video',
         procedure: 'Inventory',
         status: 'Active',
         showOptions: false,
-        mediaCount: 0
+        mediaCount: 0,
       },
       {
         id: 4,
@@ -161,17 +183,19 @@ export class DashboradComponent implements OnDestroy {
         progress: 45,
         isActive: false,
         isPrivate: false,
-        thumbnail: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-        mediaUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        thumbnail:
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        mediaUrl:
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
         thumbnails: [
           'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&fit=crop&h=150&w=200'
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&fit=crop&h=150&w=200',
         ],
         mediaType: 'Image',
         procedure: 'Warehouse',
         status: 'Inactive',
         showOptions: false,
-        mediaCount: 0
+        mediaCount: 0,
       },
       {
         id: 5,
@@ -189,26 +213,30 @@ export class DashboradComponent implements OnDestroy {
         thumbnails: [
           'https://img.youtube.com/vi/3tmd-ClpJxA/0.jpg',
           'https://img.youtube.com/vi/3tmd-ClpJxA/1.jpg',
-          'https://img.youtube.com/vi/3tmd-ClpJxA/2.jpg'
+          'https://img.youtube.com/vi/3tmd-ClpJxA/2.jpg',
         ],
         mediaType: 'Video',
         procedure: 'Retail',
         status: 'Active',
         showOptions: false,
-        mediaCount: 0
-      }
+        mediaCount: 0,
+      },
     ]);
 
     this.viewModeObs$
       .pipe(takeUntil(this.destroy$), debounceTime(100))
       .subscribe(() => this.selectedItems$.next([]));
+
+
   }
 
   /**
    * Changes the view mode of the dashboard.
    * @param viewMode - The new view mode to set.
    */
-  public onViewModeChange = (viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'): void => {
+  public onViewModeChange = (
+    viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'
+  ): void => {
     this.viewMode$.next(viewMode);
   };
 
@@ -234,7 +262,9 @@ export class DashboradComponent implements OnDestroy {
   public togglePrivate = (procedure: Project): void => {
     const procedures = this.procedures$.value;
     const updatedProcedure = { ...procedure, isPrivate: !procedure.isPrivate };
-    const updatedProcedures = procedures.map(p => (p.id === procedure.id ? updatedProcedure : p));
+    const updatedProcedures = procedures.map((p) =>
+      p.id === procedure.id ? updatedProcedure : p
+    );
     this.procedures$.next(updatedProcedures);
   };
 
@@ -245,7 +275,7 @@ export class DashboradComponent implements OnDestroy {
   public toggleSelection = (id: number): void => {
     const currentSelection = this.selectedItems$.value;
     const newSelection = currentSelection.includes(id)
-      ? currentSelection.filter(item => item !== id)
+      ? currentSelection.filter((item) => item !== id)
       : [...currentSelection, id];
     this.selectedItems$.next(newSelection);
   };
@@ -254,13 +284,13 @@ export class DashboradComponent implements OnDestroy {
    * Toggles the private status of all selected procedures.
    */
   public togglePrivateForSelected = (): void => {
-    const allPrivate = this.selectedItems$.value.every(id => {
-      const procedure = this.procedures$.value.find(p => p.id === id);
+    const allPrivate = this.selectedItems$.value.every((id) => {
+      const procedure = this.procedures$.value.find((p) => p.id === id);
       return procedure?.isPrivate ?? false;
     });
 
     const procedures = this.procedures$.value;
-    const updatedProcedures = procedures.map(procedure => {
+    const updatedProcedures = procedures.map((procedure) => {
       if (this.selectedItems$.value.includes(procedure.id)) {
         return { ...procedure, isPrivate: !allPrivate };
       }
@@ -282,7 +312,7 @@ export class DashboradComponent implements OnDestroy {
    */
   public onAddTile = (tile: Project): void => {
     const procedures = this.procedures$.value;
-    if (!procedures.some(p => p.id === tile.id)) {
+    if (!procedures.some((p) => p.id === tile.id)) {
       this.procedures$.next([...procedures, tile]);
       this.cdr.detectChanges();
     }
@@ -294,7 +324,7 @@ export class DashboradComponent implements OnDestroy {
    */
   public onRemoveTile = (id: number): void => {
     const procedures = this.procedures$.value;
-    this.procedures$.next(procedures.filter(p => p.id !== id));
+    this.procedures$.next(procedures.filter((p) => p.id !== id));
     this.cdr.detectChanges();
   };
 

@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { fromUnixTime, isAfter } from 'date-fns';
+import { decodeJwt } from 'jose';
 import Keycloak from 'keycloak-js';
 
 import { environment } from 'src/environments/environment';
@@ -20,6 +22,7 @@ interface UserProfile {
 })
 export class MockKeycloakService {
   private keycloak: Keycloak;
+  private token: string | null = null;
   /**
    *
    */
@@ -33,16 +36,42 @@ export class MockKeycloakService {
   /**
    *@returns boolean
    */
-  async init(): Promise<boolean> {
+  init(): Promise<void> {
+    return this.keycloak
+      .init({ onLoad: 'login-required' })
+      .then((authenticated) => {
+        if (authenticated) {
+          debugger;
+          this.token = this.keycloak.token ?? null;
+          console.log('Authenticated');
+          this.handleToken(this.token);
+        } else {
+          // eslint-disable-next-line no-console
+          console.warn('Not authenticated');
+        }
+      })
+      .catch((err) => console.error('Keycloak init failed', err));
+  }
+
+  /**
+   *
+   * @param token
+   */
+  private handleToken(token: string | null): void {
+    if (!token) {return;}
     try {
-      const authenticated = await this.keycloak.init({
-        onLoad: 'login-required',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
-      });
-      return authenticated;
+      const decoded = decodeJwt(token);
+      const expTime = fromUnixTime(decoded.exp || 0);
+      console.log('Token expires at:', expTime);
+      const isTokenExpired = isAfter(new Date(), expTime);
+      if (isTokenExpired) {
+        // eslint-disable-next-line no-console
+        console.warn('Token has expired!');
+      } else {
+        console.log('Token is valid');
+      }
     } catch (error) {
-      console.error('Keycloak initialization failed', error);
-      return false;
+      console.error('Failed to decode token', error);
     }
   }
   /**
@@ -56,8 +85,7 @@ export class MockKeycloakService {
    *@returns TokenResponse
    */
   async getToken(): Promise<string | undefined> {
-    await this.keycloak.updateToken(30);
-    return this.keycloak.token;
+    return this.token ?? undefined;
   }
 
   /**
@@ -81,7 +109,5 @@ export class MockKeycloakService {
     return !!this.keycloak.authenticated;
   }
 
-
-
-
 }
+export const keycloakService = new MockKeycloakService();

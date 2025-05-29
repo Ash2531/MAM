@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   keycloak: {
     url: 'http://localhost:3000', // Mock server
     realm: 'Baxter-MAM',

@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
  */
 @Component({
   selector: 'app-search-controls',
+  standalone: false,
   templateUrl: './search-controls.component.html',
   styleUrls: ['./search-controls.component.scss'],
 })

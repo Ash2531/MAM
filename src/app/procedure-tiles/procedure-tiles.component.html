@@ -35,7 +35,7 @@
         'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
       }"
     >
-      {{ procedure.date | date: 'yyyy-MM-dd' }}
+     {{ formatDate(procedure.date) }}
     </p>
     <p
       [ngClass]="{
