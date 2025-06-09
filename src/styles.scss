@@ -1,10 +1,105 @@
+@use '@angular/material' as mat;
 
+@include mat.core();
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// Import Tailwind CSS
+@import "./tailwind.css";
 
+// Base styles
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+}
+
+// Compatibility fixes for Angular Material and Tailwind
+.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-right-style: hidden;
+}
+
+[type="text"],
+[type="email"],
+[type="url"],
+[type="password"],
+[type="number"],
+[type="date"],
+[type="datetime-local"],
+[type="month"],
+[type="search"],
+[type="tel"],
+[type="time"],
+[type="week"],
+[multiple],
+textarea,
+select {
+  padding: 0;
+  border: none;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.video-dialog {
+  .mdc-dialog__surface {
+    background: #0a0a0a !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  .mdc-dialog__container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mat-mdc-dialog-content {
+    max-height: none !important;
+    background: #0a0a0a;
+  }
+
+  .mat-mdc-icon-button {
+    --mdc-icon-button-icon-color: rgba(255, 255, 255, 0.87);
+    --mdc-icon-button-state-layer-color: rgba(255, 255, 255, 0.12);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(8px);
+  }
+
+  mat-dialog-title {
+    color: rgba(255, 255, 255, 0.87) !important;
+  }
+
+  .mdc-dialog__title {
+    color: rgba(255, 255, 255, 0.87) !important;
+  }
+
+  // Custom scrollbar for dark theme
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+}

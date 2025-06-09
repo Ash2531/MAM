@@ -23,13 +23,10 @@ interface Project {
   itemCount: number;
 }
 
-/**
- *
- */
 @Component({
   selector: 'app-tiles-more-option',
   standalone: true,
-  imports: [CommonModule,TranslateModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './tiles-more-option.component.html',
   styleUrls: ['./tiles-more-option.component.scss'],
 })
@@ -86,24 +83,15 @@ export class TilesMoreOptionComponent {
     },
   ];
 
-  /**
-   * Toggles the options menu for a specific item.
-   * @param id - The ID of the item to toggle options for.
-   */
-  toggleOptions = (id: number): void => {
-    this.items.forEach(item => {
+  toggleOptions(id: number): void {
+    this.items.forEach((item) => {
       item.showOptions = item.id === id ? !item.showOptions : false;
     });
-  };
+  }
 
-  /**
-   * Handles actions on an item (e.g., add, delete, view).
-   * @param id - The ID of the item.
-   * @param action - The action to perform ('add', 'delete', 'view').
-   */
-  handleAction = (id: number, action: string): void => {
-    const item = this.items.find(i => i.id === id);
-    if (!item) {return;}
+  handleAction(id: number, action: string): void {
+    const item = this.items.find((i) => i.id === id);
+    if (!item) return;
 
     switch (action) {
       case 'add':
@@ -117,5 +105,5 @@ export class TilesMoreOptionComponent {
         break;
     }
     this.toggleOptions(id);
-  };
+  }
 }

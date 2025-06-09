@@ -1,9 +1,12 @@
 <div
   (click)="onTileClick()"
   [ngClass]="{
-    'bg-gray-800 text-white rounded-lg p-4 cursor-pointer': viewMode === 'tiles',
-    'bg-gray-800 text-white rounded-lg p-2 cursor-pointer': viewMode === 'thumbnails-large',
-    'bg-gray-800 text-white rounded-lg p-1 cursor-pointer': viewMode === 'thumbnails-small',
+    'bg-gray-800 text-white rounded-lg p-4 cursor-pointer':
+      viewMode === 'tiles',
+    'bg-gray-800 text-white rounded-lg p-2 cursor-pointer':
+      viewMode === 'thumbnails-large',
+    'bg-gray-800 text-white rounded-lg p-1 cursor-pointer':
+      viewMode === 'thumbnails-small',
     'border-2 border-blue-500': isSelected
   }"
 >
@@ -32,23 +35,26 @@
     <p
       [ngClass]="{
         'text-sm': viewMode === 'tiles',
-        'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+        'text-xs':
+          viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
       }"
     >
-     {{ formatDate(procedure.date) }}
+      {{ formatDate(procedure.date) }}
     </p>
     <p
       [ngClass]="{
         'text-sm': viewMode === 'tiles',
-        'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+        'text-xs':
+          viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
       }"
     >
-      {{ procedure.type }} ({{ procedure.itemCount }} {{'items'| translate}})
+      {{ procedure.type }} ({{ procedure.itemCount }} {{ "items" | translate }})
     </p>
     <p
       [ngClass]="{
         'text-sm': viewMode === 'tiles',
-        'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+        'text-xs':
+          viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
       }"
     >
       {{ procedure.title }} / {{ procedure.code }}
@@ -57,12 +63,13 @@
       <p
         [ngClass]="{
           'text-sm': viewMode === 'tiles',
-          'text-xs': viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
+          'text-xs':
+            viewMode === 'thumbnails-large' || viewMode === 'thumbnails-small'
         }"
       >
-        {{'Progress' | translate}}: {{ procedure.progress }}%
+        {{ "Progress" | translate }}: {{ procedure.progress }}%
       </p>
-      <div class="w-full bg-gray-300 rounded-full h-2" style="position: relative; width: 30%;">
+      <div class="w-full bg-gray-300 rounded-full h-2">
         <div
           [style.width]="procedure.progress + '%'"
           [ngClass]="{
@@ -79,24 +86,25 @@
         'bg-pink-500 text-white px-3 py-1 rounded mt-2': !procedure.isActive
       }"
     >
-      {{ procedure.isActive ? ('Active' | translate) : ('Inactive' | translate)  }}
+      {{
+        procedure.isActive ? ("Active" | translate) : ("Inactive" | translate)
+      }}
     </button>
     <!-- Private Toggle -->
     <button
       (click)="onTogglePrivate($event)"
       class="bg-gray-500 text-white px-3 py-1 rounded mt-2 ml-2"
     >
-      {{ (procedure.isPrivate ? 'Unprivate' : 'Private')| translate }}
+      {{ (procedure.isPrivate ? "Unprivate" : "Private") | translate }}
     </button>
     <!-- Delete Button -->
     <button
       (click)="onRemoveTile($event)"
       class="bg-red-500 text-white px-3 py-1 rounded mt-2 ml-2"
     >
-      {{'Delete' | translate}}
+      {{ "Delete" | translate }}
     </button>
     <!-- Checkbox for Multiple Selection -->
-     &nbsp;&nbsp;
     <input
       type="checkbox"
       class="mt-2"

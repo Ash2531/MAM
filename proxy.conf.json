@@ -1,0 +1,11 @@
+{
+  "/api/npm-registry": {
+    "target": "https://registry.npmjs.org",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api/npm-registry": ""
+    },
+    "logLevel": "debug"
+  }
+} 

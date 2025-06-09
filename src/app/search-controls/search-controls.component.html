@@ -6,9 +6,13 @@
         (ngModelChange)="onViewModeChange($event)"
         class="border rounded px-3 py-2 bg-blue-500 text-white"
       >
-        <option value="tiles">{{'Procedure Tiles' | translate}}</option>
-        <option value="thumbnails-large">{{'Thumbnail_Large' | translate}}</option>
-        <option value="thumbnails-small">{{'Thumbnail_Small' | translate}}</option>
+        <option value="tiles">{{ "Procedure Tiles" | translate }}</option>
+        <option value="thumbnails-large">
+          {{ "Thumbnail_Large" | translate }}
+        </option>
+        <option value="thumbnails-small">
+          {{ "Thumbnail_Small" | translate }}
+        </option>
       </select>
     </div>
   </div>
@@ -20,12 +24,14 @@
     (click)="onTogglePrivateForSelected()"
     class="bg-gray-500 text-white px-4 py-2 rounded"
   >
-    {{ allSelectedPrivate ? 'Unprivate' : 'Private' | translate }}
+    {{
+      allSelectedPrivate ? ("Unprivate" | translate) : ("Private" | translate)
+    }}
   </button>
   <button
     (click)="onClearSelection()"
     class="bg-gray-300 text-black px-4 py-2 rounded"
   >
-    {{'Clear Selection' | translate}}
+    {{ "Clear Selection" | translate }}
   </button>
 </div>

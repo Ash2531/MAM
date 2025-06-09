@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+.mat-mdc-list-item {
+  &:hover {
+    .mat-icon {
+      color: theme('colors.purple.400');
+    }
+  }
+}
+
+.mat-mdc-card {
+  --mdc-elevated-card-container-color: transparent;
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme('colors.gray.100');
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.purple.300');
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.purple.400');
+}
+
+.dashboard-container {
+  font-family: "Roboto", sans-serif;
+  background: #f4f7fa;
+  min-height: 100vh;
+}
+
+// Removing the .close-button class as we're using Tailwind classes directly in the template
+
+.tiles-more-section {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

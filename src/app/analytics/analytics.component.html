@@ -1,0 +1,124 @@
+<div class="p-6">
+  <!-- Analytics Overview -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-gray-600 text-sm font-medium">Page Views</h3>
+      <div class="flex items-center mt-2">
+        <span class="text-3xl font-semibold">12,543</span>
+        <span class="text-green-500 text-sm ml-2">+15%</span>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-gray-600 text-sm font-medium">Bounce Rate</h3>
+      <div class="flex items-center mt-2">
+        <span class="text-3xl font-semibold">32%</span>
+        <span class="text-red-500 text-sm ml-2">+2%</span>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-gray-600 text-sm font-medium">User Sessions</h3>
+      <div class="flex items-center mt-2">
+        <span class="text-3xl font-semibold">8,234</span>
+        <span class="text-green-500 text-sm ml-2">+18%</span>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-gray-600 text-sm font-medium">Avg. Session Duration</h3>
+      <div class="flex items-center mt-2">
+        <span class="text-3xl font-semibold">4:32</span>
+        <span class="text-green-500 text-sm ml-2">+12%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Monthly Revenue Chart -->
+    <mat-card class="bg-white rounded-xl shadow-sm">
+      <mat-card-header>
+        <mat-card-title class="text-lg font-semibold text-gray-800">Monthly Revenue</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4">
+        <div class="h-[300px] flex items-center justify-center bg-gray-50 rounded-lg">
+          <p class="text-gray-500">Monthly Revenue Chart</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- User Growth Chart -->
+    <mat-card class="bg-white rounded-xl shadow-sm">
+      <mat-card-header>
+        <mat-card-title class="text-lg font-semibold text-gray-800">User Growth</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4">
+        <div class="h-[300px] flex items-center justify-center bg-gray-50 rounded-lg">
+          <p class="text-gray-500">User Growth Chart</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Top Products -->
+    <mat-card class="bg-white rounded-xl shadow-sm">
+      <mat-card-header>
+        <mat-card-title class="text-lg font-semibold text-gray-800">Top Products</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4">
+        <div class="space-y-4">
+          @for (product of topProducts; track product.name) {
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <mat-icon class="text-blue-600 mr-3">{{product.icon}}</mat-icon>
+                <div>
+                  <p class="font-medium text-gray-800">{{product.name}}</p>
+                  <p class="text-sm text-gray-600">{{product.sales}} sales</p>
+                </div>
+              </div>
+              <span class="text-green-500">{{product.growth}}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Performance Metrics -->
+    <mat-card class="bg-white rounded-xl shadow-sm">
+      <mat-card-header>
+        <mat-card-title class="text-lg font-semibold text-gray-800">Performance Metrics</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4">
+        <div class="space-y-4">
+          @for (metric of metrics; track metric.name) {
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-700">{{metric.name}}</span>
+                <span class="text-gray-900 font-medium">{{metric.value}}</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-blue-600 h-2 rounded-full" [style.width]="metric.percentage + '%'"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Detailed Analytics -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-lg font-medium mb-4">Traffic Sources</h3>
+      <div class="h-[300px] flex items-center justify-center text-gray-400">
+        Traffic Sources Chart Placeholder
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+      <h3 class="text-lg font-medium mb-4">User Engagement</h3>
+      <div class="h-[300px] flex items-center justify-center text-gray-400">
+        User Engagement Chart Placeholder
+      </div>
+    </div>
+  </div>
+</div>

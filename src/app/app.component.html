@@ -1,6 +1,100 @@
+<mat-toolbar class="fixed top-0 w-full z-50 bg-white border-b">
+  @if (user$ | async; as user) {
+    <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="ml-4 text-xl font-medium">{{ activeMenu | translate }}</span>
+    <span class="flex-1"></span>
+    <button mat-icon-button [matTooltip]="'COMMON.NOTIFICATIONS' | translate">
+      <mat-icon>notifications</mat-icon>
+    </button>
 
+    <!-- Language Selector -->
+    <button mat-icon-button [matMenuTriggerFor]="langMenu" class="ml-2" [matTooltip]="'COMMON.LANGUAGE' | translate">
+      <mat-icon>language</mat-icon>
+    </button>
+    <mat-menu #langMenu="matMenu">
+      <button mat-menu-item (click)="setLanguage('en')">
+        <span [class.font-medium]="currentLang === 'en'">{{ 'English' }}</span>
+      </button>
+      <button mat-menu-item (click)="setLanguage('fr')">
+        <span [class.font-medium]="currentLang === 'fr'">{{ 'French' }}</span>
+      </button>
+    </mat-menu>
 
-<app-navigation class="navbar"></app-navigation>
+    <button mat-button [matMenuTriggerFor]="userMenu" class="ml-2">
+      <mat-icon>account_circle</mat-icon>
+      <span class="ml-1">{{user.preferred_username || user.email}}</span>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>person</mat-icon>
+        <span>{{ 'NAV.PROFILE' | translate }}</span>
+      </button>
+      <button mat-menu-item routerLink="/settings">
+        <mat-icon>settings</mat-icon>
+        <span>{{ 'NAV.SETTINGS' | translate }}</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>{{ 'AUTH.LOGOUT' | translate }}</span>
+      </button>
+    </mat-menu>
+  } @else {
+    <span class="ml-4 text-xl font-medium">{{ 'AUTH.WELCOME_BACK' | translate }}</span>
+    <span class="flex-1"></span>
+    <button mat-button (click)="login()">
+      <mat-icon>login</mat-icon>
+      <span class="ml-1">{{ 'AUTH.LOGIN' | translate }}</span>
+    </button>
+  }
+</mat-toolbar>
 
+<!-- Main Container with proper layout -->
+<div class="flex h-screen overflow-hidden">
+  <!-- Sidenav Container -->
+  <mat-sidenav-container class="flex-1">
+    @if (user$ | async) {
+      <mat-sidenav #sidenav mode="side" opened class="w-64 mt-16 border-r bg-white">
+        <div class="p-4">
+          <mat-nav-list>
+            <!-- Dashboard Menu -->
+            <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+              <mat-icon matListItemIcon>dashboard</mat-icon>
+              <span matListItemTitle>{{ 'NAV.DASHBOARD' | translate }}</span>
+            </a>
 
-<router-outlet></router-outlet>
+            <!-- Profile Menu -->
+            <a mat-list-item routerLink="/profile" routerLinkActive="active">
+              <mat-icon matListItemIcon>person</mat-icon>
+              <span matListItemTitle>{{ 'NAV.PROFILE' | translate }}</span>
+            </a>            <!-- Player Menu -->
+            <a mat-list-item routerLink="/player" routerLinkActive="active">
+              <mat-icon matListItemIcon>play_circle</mat-icon>
+              <span matListItemTitle>{{ 'NAV.PLAYER' | translate }}</span>
+            </a>
+
+            <!-- Settings Menu -->
+            <a mat-list-item routerLink="/settings" routerLinkActive="active">
+              <mat-icon matListItemIcon>settings</mat-icon>
+              <span matListItemTitle>{{ 'NAV.SETTINGS' | translate }}</span>
+            </a>
+
+            <!-- Library Versions Menu -->
+            <mat-divider class="my-2"></mat-divider>
+            <a mat-list-item (click)="openLibraryDialog()">
+              <mat-icon matListItemIcon>info</mat-icon>
+              <span matListItemTitle>Libraries Used</span>
+            </a>
+          </mat-nav-list>
+        </div>
+      </mat-sidenav>
+    }
+
+    <!-- Main Content -->
+    <mat-sidenav-content [class]="(user$ | async) ? 'mt-16 p-6' : 'p-6'">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

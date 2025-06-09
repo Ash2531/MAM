@@ -1,9 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { isValid, format } from 'date-fns';
 
 interface Project {
   id: number;
   name: string;
-  date: Date | string;
+  date: Date;
   mediaType: string;
   mediaCount: number;
   procedure: string;
@@ -21,53 +25,52 @@ interface Project {
   itemCount: number;
 }
 
-/**
- *
- */
 @Component({
   selector: 'app-procedure-list',
-  standalone: false,
+  standalone: true,
   templateUrl: './procedure-list.component.html',
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   styleUrls: ['./procedure-list.component.scss'],
 })
 export class ProcedureListComponent {
   @Input() procedures: Project[] = [];
-  @Input() viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small' | null = 'tiles';
+  @Input() viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small' | null =
+    'tiles';
   @Input() selectedItems: number[] = [];
   @Output() readonly tileClick = new EventEmitter<Project>();
   @Output() readonly togglePrivate = new EventEmitter<Project>();
   @Output() readonly toggleSelection = new EventEmitter<number>();
   @Output() readonly removeTile = new EventEmitter<number>();
 
-  /**
-   * Handles a tile click event.
-   * @param procedure - The project that was clicked.
-   */
-  onTileClick = (procedure: Project): void => {
+  // Helper function to format dates safely
+  formatDate(date: Date | string | undefined): string {
+    if (!date) return 'N/A';
+    const dateObj = new Date(date);
+    if (!isValid(dateObj)) {
+      console.warn('Invalid date:', date);
+      return 'Invalid date';
+    }
+    try {
+      return format(dateObj, 'MMM d, yyyy');
+    } catch (err) {
+      console.error('Error formatting date:', err);
+      return 'Invalid date';
+    }
+  }
+
+  onTileClick(procedure: Project): void {
     this.tileClick.emit(procedure);
-  };
+  }
 
-  /**
-   * Toggles the private status of a procedure.
-   * @param procedure - The project to toggle.
-   */
-  onTogglePrivate = (procedure: Project): void => {
+  onTogglePrivate(procedure: Project): void {
     this.togglePrivate.emit(procedure);
-  };
+  }
 
-  /**
-   * Toggles the selection of a procedure by ID.
-   * @param id - The ID of the procedure to toggle.
-   */
-  onToggleSelection = (id: number): void => {
+  onToggleSelection(id: number): void {
     this.toggleSelection.emit(id);
-  };
+  }
 
-  /**
-   * Removes a tile by emitting its ID.
-   * @param id - The ID of the tile to remove.
-   */
-  onRemoveTile = (id: number): void => {
+  onRemoveTile(id: number): void {
     this.removeTile.emit(id);
-  };
+  }
 }

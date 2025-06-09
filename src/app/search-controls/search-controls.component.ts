@@ -1,41 +1,36 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-/**
- *
- */
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-search-controls',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, TranslateModule, FormsModule],
   templateUrl: './search-controls.component.html',
   styleUrls: ['./search-controls.component.scss'],
 })
 export class SearchControlsComponent {
-  @Input() viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small' | null = 'tiles';
+  @Input() viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small' | null =
+    'tiles';
   @Input() selectedItems: number[] = [];
   @Input() allSelectedPrivate: boolean | null = false;
-  @Output() readonly viewModeChange = new EventEmitter<'tiles' | 'thumbnails-large' | 'thumbnails-small'>();
+  @Output() readonly viewModeChange = new EventEmitter<
+    'tiles' | 'thumbnails-large' | 'thumbnails-small'
+  >();
   @Output() readonly togglePrivateForSelected = new EventEmitter<void>();
   @Output() readonly clearSelection = new EventEmitter<void>();
 
-  /**
-   * Emits a view mode change event.
-   * @param viewMode - The new view mode to emit.
-   */
-  onViewModeChange = (viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'): void => {
+  onViewModeChange(
+    viewMode: 'tiles' | 'thumbnails-large' | 'thumbnails-small'
+  ): void {
     this.viewModeChange.emit(viewMode);
-  };
+  }
 
-  /**
-   * Emits an event to toggle the private status of selected items.
-   */
-  onTogglePrivateForSelected = (): void => {
+  onTogglePrivateForSelected(): void {
     this.togglePrivateForSelected.emit();
-  };
+  }
 
-  /**
-   * Emits an event to clear the current selection.
-   */
-  onClearSelection = (): void => {
+  onClearSelection(): void {
     this.clearSelection.emit();
-  };
+  }
 }

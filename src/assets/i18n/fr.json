@@ -1,22 +1,51 @@
 {
-    "Title": "Test de soupe Baxter-MAM",
-    "Procedure Tiles": "Tuiles de Procédure",
-    "Thumbnail_Large": "Vignettes Grandes",
-    "Thumbnail_Small": "Vignettes Petites",
-    "Show More Tiles": "Afficher Plus de Tuiles",
-    "Hide More Tiles": "Masquer Plus de Tuiles",
-    "Active": "Actif",
-    "Inactive": "Inactif",
-    "Private": "Privé",
-    "Unprivate": "Non Privé",
-    "Delete": "Supprimer",
-    "Progress": "Progrès",
-    "Close": "Fermer",
-    "Name:": "Nom:",
-    "Email:": "E-mail:",
-    "Clear Selection": "Effacer la Sélection",
-    "items": "articles",
-    "Additional Tiles": "Tuiles Supplémentaires",
-    "Logout": "Déconnexion"
-
+  "NAV": {
+    "DASHBOARD": "Tableau de bord",
+    "PROFILE": "Profil",
+    "PLAYER": "Lecteur",
+    "SETTINGS": "Paramètres"
+  },
+  "AUTH": {
+    "LOGIN": "Connexion",
+    "LOGOUT": "Déconnexion",
+    "LOGGED_OUT": "Déconnexion réussie",
+    "THANK_YOU": "Merci d'avoir utilisé notre application",
+    "LOGIN_AGAIN": "Se reconnecter",
+    "WELCOME_BACK": "Bienvenue",
+    "PLEASE_LOGIN": "Veuillez vous connecter pour continuer"
+  },
+  "PROFILE": {
+    "PERSONAL_INFO": "Informations personnelles",
+    "USERNAME": "Nom d'utilisateur",
+    "EMAIL": "Email",
+    "EMAIL_VERIFIED": "Email vérifié",
+    "ROLES": "Rôles"
+  },
+  "COMMON": {
+    "NOTIFICATIONS": "Notifications",
+    "LANGUAGE": "Langue",
+    "ENGLISH": "Anglais",
+    "FRENCH": "Français"
+  },
+  "Baxter-MAM Soup Testing": "Test de soupe Baxter-MAM",
+  "Language": "Langue",
+  "Name": "Nom",
+  "Email": "Courriel",
+  "Logout": "Se déconnecter",
+  "Procedure Tiles": "Tuiles de procédure",
+  "Thumbnail_Large": "Grande vignette",
+  "Thumbnail_Small": "Petite vignette",
+  "Unprivate": "Rendre public",
+  "Private": "Rendre privé",
+  "Clear Selection": "Effacer la sélection",
+  "Show More Tiles": "Afficher plus de tuiles",
+  "Hide More Tiles": "Masquer les tuiles supplémentaires",
+  "Additional Tiles": "Tuiles supplémentaires",
+  "Close": "Fermer",
+  "Progress": "Progrès",
+  "Active": "Actif",
+  "Inactive": "Inactif",
+  "Delete": "Supprimer",
+  "items": "éléments",
+  "welcome_message": "Bienvenue, {{name}} !"
 }

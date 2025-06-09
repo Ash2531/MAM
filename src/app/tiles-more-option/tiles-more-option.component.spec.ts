@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { TilesMoreOptionComponent } from './tiles-more-option.component';
 
@@ -8,9 +9,12 @@ describe('TilesMoreOptionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TilesMoreOptionComponent]
+      imports: [
+        TilesMoreOptionComponent,
+        TranslateModule.forRoot()
+      ]
     })
-      .compileComponents();
+    .compileComponents();
 
     fixture = TestBed.createComponent(TilesMoreOptionComponent);
     component = fixture.componentInstance;

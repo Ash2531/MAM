@@ -1,21 +1,52 @@
 {
-    "Title": "Baxter-MAM Soup Testing",
-    "Thumbnail_Large": "Thumbnail Large",
-    "Thumbnail_Small": "Thumbnail Small",
-    "Show More Tiles" :"Show More Tiles",
-    "Hide More Tiles": "Hide More Tiles",
-    "Active": "Active",
-    "Inactive": "Inactive",
-    "Private": "Private",
-    "Unprivate": "Unprivate",
-    "Delete": "Delete",
-    "Progress": "Progress",
-    "Close": "Close",
-    "Name:": "Name:",
-    "Email:" : "Email:",
-    "Clear Selection" : "Clear Selection",
-    "items": "items",
-    "Additional Tiles": "Additional Tiles",
-    "Logout": "Logout"
-
+  "NAV": {
+    "DASHBOARD": "Dashboard",
+    "PROFILE": "Profile",
+    "ANALYTICS": "Analytics",
+    "PLAYER": "Shaka Player",
+    "SETTINGS": "Settings"
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "LOGGED_OUT": "Successfully Logged Out",
+    "THANK_YOU": "Thank you for using our application",
+    "LOGIN_AGAIN": "Login Again",
+    "WELCOME_BACK": "Welcome Back",
+    "PLEASE_LOGIN": "Please log in to continue"
+  },
+  "PROFILE": {
+    "PERSONAL_INFO": "Personal Information",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "EMAIL_VERIFIED": "Email verified",
+    "ROLES": "Roles"
+  },
+  "COMMON": {
+    "NOTIFICATIONS": "Notifications",
+    "LANGUAGE": "Language",
+    "ENGLISH": "English",
+    "FRENCH": "French"
+  },
+   "Baxter-MAM Soup Testing": "Baxter-MAM Soup Testing",
+  "Language": "Language",
+  "Name": "Name",
+  "Email": "Email",
+  "Logout": "Logout",
+  "Procedure Tiles": "Procedure Tiles",
+  "Thumbnail_Large": "Thumbnail Large",
+  "Thumbnail_Small": "Thumbnail Small",
+  "Unprivate": "Unprivate",
+  "Private": "Private",
+  "Clear Selection": "Clear Selection",
+  "Show More Tiles": "Show More Tiles",
+  "Hide More Tiles": "Hide More Tiles",
+  "Additional Tiles": "Additional Tiles",
+  "Close": "Close",
+  "Progress": "Progress",
+  "Active": "Active",
+  "Inactive": "Inactive",
+  "Delete": "Delete",
+  "items": "items",
+  "welcome_message": "Welcome, {{name}}!"
 }

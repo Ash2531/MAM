@@ -27,28 +27,6 @@
     margin-bottom: 4px;
   }
 
-  .progress {
-    margin-top: 12px;
-
-    p {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .progress-bar {
-      background: #333;
-      height: 6px;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      background: #28a745;
-      height: 100%;
-      transition: width 0.3s;
-    }
-  }
-
   button {
     font-size: 12px;
     padding: 4px 12px;

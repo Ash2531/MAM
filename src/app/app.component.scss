@@ -1,8 +1,63 @@
+:host {
+  display: block;
+  height: 100vh;
+}
 
-  .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background-color: white;
+.mat-sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+.mat-sidenav {
+  width: 250px;
+}
+
+.bg-primary-100 {
+  background-color: rgba(63, 81, 181, 0.1);
+}
+
+.mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mat-mdc-list-item {
+  &:hover {
+    background-color: rgba(63, 81, 181, 0.04);
   }
 
+  &.active {
+    background-color: rgba(63, 81, 181, 0.12);
+  }
+}
+
+.stats-card {
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.dashboard-submenu {
+  .mat-divider {
+    margin: 8px 0;
+  }
+
+  .pl-4 {
+    padding-left: 1rem;
+  }
+
+  .mat-mdc-list-item {
+    &:hover {
+      background-color: rgba(63, 81, 181, 0.04);
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

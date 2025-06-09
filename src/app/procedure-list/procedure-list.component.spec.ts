@@ -6,10 +6,12 @@ describe('ProcedureListComponent', () => {
   let component: ProcedureListComponent;
   let fixture: ComponentFixture<ProcedureListComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProcedureListComponent]
-    });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ProcedureListComponent]
+    })
+    .compileComponents();
+
     fixture = TestBed.createComponent(ProcedureListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,0 +1,9 @@
+.video-dialog {
+  .mat-mdc-dialog-container {
+    padding: 0;
+  }
+  .mat-mdc-dialog-surface {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
