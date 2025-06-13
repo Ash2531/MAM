@@ -75,6 +75,18 @@
               <span matListItemTitle>{{ 'NAV.PLAYER' | translate }}</span>
             </a>
 
+            <!-- GraphQL Demo Menu -->
+            <a mat-list-item routerLink="/graphql-demo" routerLinkActive="active">
+              <mat-icon matListItemIcon>cloud</mat-icon>
+              <span matListItemTitle>GraphQL Demo</span>
+            </a>
+
+              <!-- GraphQL SSE Menu -->
+            <a mat-list-item routerLink="/graphql-sse" routerLinkActive="active">
+              <mat-icon matListItemIcon>cloud</mat-icon>
+              <span matListItemTitle>GraphQL SSE</span>
+            </a>
+
             <!-- Settings Menu -->
             <a mat-list-item routerLink="/settings" routerLinkActive="active">
               <mat-icon matListItemIcon>settings</mat-icon>
@@ -87,6 +99,13 @@
               <mat-icon matListItemIcon>info</mat-icon>
               <span matListItemTitle>Libraries Used</span>
             </a>
+
+             <a mat-list-item (click)="logout()">
+             <mat-icon>logout</mat-icon>
+             <span>{{ 'AUTH.LOGOUT' | translate }}</span>
+            </a>
+
+
           </mat-nav-list>
         </div>
       </mat-sidenav>

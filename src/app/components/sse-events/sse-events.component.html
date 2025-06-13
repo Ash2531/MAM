@@ -1,0 +1,156 @@
+<div [class.dark]="isDarkTheme()">
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <h1 class="dashboard-title">
+        📡 Live Message Stream
+      </h1>
+      <div class="controls">
+        <div class="status-badge" [class]="connectionStatus()">
+          <span class="status-dot">
+            {{ connectionStatus() === 'connected' ? '🟢' :
+               connectionStatus() === 'connecting' ? '🟡' : '🔴' }}
+          </span>
+          {{ connectionStatus() }}
+        </div>
+
+        @if (connectionStatus() === 'disconnected') {
+          <button
+            class="control-button connect-button"
+            (click)="connect()"
+          >
+            🔌 Connect
+          </button>
+        } @else {
+          <button
+            class="control-button disconnect-button"
+            (click)="disconnect()"
+            [disabled]="connectionStatus() === 'connecting'"
+          >
+            ⏹️ Disconnect
+          </button>
+        }
+
+        <button
+          class="tool-button"
+          (click)="toggleTheme()"
+          title="Toggle theme"
+        >
+          {{ isDarkTheme() ? '☀️' : '🌙' }}
+        </button>
+      </div>
+    </header>
+
+    <div class="stats-panel">
+      <div class="stat-item">
+        <span class="stat-label">⏱️ Connection Time</span>
+        <span class="stat-value">{{ connectionStats().connectionDuration || '0:00' }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">📊 Total Messages</span>
+        <span class="stat-value">{{ connectionStats().messageCount || 0 }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">⚡ Messages/min</span>
+        <span class="stat-value">{{ connectionStats().messagesPerMinute || 0 }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">🕒 Last Message</span>
+        <span class="stat-value">{{ connectionStats().lastMessageAt ? (connectionStats().lastMessageAt | date:'HH:mm:ss') : '-' }}</span>
+      </div>
+    </div>
+
+    <div class="message-tools">
+      <input
+        type="text"
+        class="search-box"
+        placeholder="Search messages..."
+        [(ngModel)]="searchTerm"
+        (input)="filterMessages()"
+      >
+
+      <button
+        class="tool-button"
+        (click)="clearMessages()"
+        [disabled]="messages().length === 0"
+        title="Clear all messages"
+      >
+        🗑️ Clear
+      </button>
+
+      <button
+        class="tool-button"
+        (click)="toggleAutoScroll()"
+        [style.opacity]="messages().length ? 1 : 0.5"
+        [title]="autoScroll() ? 'Pause auto-scroll' : 'Resume auto-scroll'"
+      >
+        {{ autoScroll() ? '⏸️ Pause' : '▶️ Resume' }}
+      </button>
+
+      <button
+        class="tool-button"
+        (click)="exportMessages()"
+        [disabled]="messages().length === 0"
+        title="Export messages to JSON"
+      >
+        📥 Export
+      </button>
+
+      <div class="message-stats">
+        📊 Messages: {{ filteredMessages().length }}
+      </div>
+    </div>
+
+    <div class="message-list" #messageList>
+      @if (filteredMessages().length === 0) {
+        <div class="message-placeholder">
+          @if (connectionStatus() === 'disconnected') {
+            <p>Click connect to start receiving messages</p>
+            <p style="font-size: 2rem">🔌</p>
+          } @else if (messages().length === 0) {
+            <p>Waiting for incoming messages...</p>
+            <p style="font-size: 2rem">📨</p>
+          } @else {
+            <p>No messages match your search</p>
+            <p style="font-size: 2rem">🔍</p>
+          }
+        </div>
+      } @else {
+        @for (group of messageGroups(); track group.title) {
+          <div class="message-group">
+            <h3 class="group-header">{{ group.title }}</h3>
+            @for (message of group.messages; track message.id) {
+              <div class="message-card">
+                <div class="message-header">
+                  <span>ID: {{ message.id }}</span>
+                  <span>{{ message.timestamp | date:'medium' }}</span>
+                </div>
+                <div class="message-content">
+                  {{ message.content }}
+                </div>
+                <button
+                  class="tool-button copy-button"
+                  (click)="copyMessage(message)"
+                  title="Copy message to clipboard"
+                >
+                  📋
+                </button>
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="notification-settings">
+    <button
+      class="tool-button"
+      (click)="toggleSound()"
+      [title]="soundEnabled() ? 'Disable sound notifications' : 'Enable sound notifications'"
+    >
+      {{ soundEnabled() ? '🔊' : '🔇' }}
+    </button>
+  </div>
+</div>
+
+<app-toast />
